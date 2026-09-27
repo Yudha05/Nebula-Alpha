@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Smart City & Business Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+            
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li class="active"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+
+            <!-- <div class="sidebar-card">
+                <div class="card-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                <h4>Unduh Aplikasi Nebula</h4>
+                <p>Pantau kota di mana saja.</p>
+                <button class="btn-download">Unduh</button>
+            </div> -->
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari data sensor, tugas...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Dashboard Terpadu</h1>
+                    <p>Pantau, analisis, dan kelola infrastruktur pintar Anda dengan mudah.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Proyek</button>
+                    <button class="btn-outline">Impor Data</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Sensor Aktif</h3>
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <h2>1,204</h2>
+                    <p><i class="fa-solid fa-caret-up"></i> Meningkat dari bulan lalu</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Kendala Teratasi</h3>
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <h2>850</h2>
+                    <p><i class="fa-solid fa-caret-up"></i> Meningkat dari bulan lalu</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Proyek Berjalan</h3>
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                    <h2>12</h2>
+                    <p><i class="fa-solid fa-caret-up"></i> Meningkat dari bulan lalu</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Status Tertunda</h3>
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+                    <h2>5</h2>
+                    <p>Sedang didiskusikan</p>
+                </div>
+            </div>
+
+            <!-- Middle Sections -->
+            <div class="content-grid-3">
+                <!-- Analytics Dummy -->
+                <div class="card col-span-1">
+                    <h3>Analitik Kualitas Udara</h3>
+                    <div class="chart-dummy">
+                        <div class="bar" style="height: 60%;"></div>
+                        <div class="bar" style="height: 80%;"></div>
+                        <div class="bar" style="height: 50%;"></div>
+                        <div class="bar dark-bar" style="height: 90%;"></div>
+                        <div class="bar" style="height: 40%;"></div>
+                        <div class="bar" style="height: 70%;"></div>
+                    </div>
+                </div>
+
+                <!-- Reminders -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Pengingat</h3>
+                    </div>
+                    <div class="reminder-content">
+                        <h4>Rapat Integrasi CCTV AI</h4>
+                        <p>Waktu: 14:00 - 16:00 WIB</p>
+                        <button class="btn-primary full-width mt-10"><i class="fa-solid fa-video"></i> Mulai Rapat</button>
+                    </div>
+                </div>
+
+                <!-- Projects List -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Daftar Proyek</h3>
+                        <button class="btn-small">+ Baru</button>
+                    </div>
+                    <ul class="project-list">
+                        <li>
+                            <div class="icon blue"><i class="fa-solid fa-code"></i></div>
+                            <div>
+                                <h4>Pengembangan API Parkir</h4>
+                                <p>Tenggat: 26 Nov 2024</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon green"><i class="fa-solid fa-leaf"></i></div>
+                            <div>
+                                <h4>Sensor Limbah Pintar</h4>
+                                <p>Tenggat: 28 Nov 2024</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Sections -->
+            <div class="content-grid-3 mt-20">
+                <!-- Team -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Kolaborasi Tim</h3>
+                        <button class="btn-small">+ Tambah</button>
+                    </div>
+                    <ul class="team-list">
+                        <li>
+                            <img src="https://ui-avatars.com/api/?name=Alexandra+D&background=random" alt="Team">
+                            <div>
+                                <h4>Alexandra Deff</h4>
+                                <p>Optimasi Routing Transportasi</p>
+                            </div>
+                            <span class="badge completed">Selesai</span>
+                        </li>
+                        <li>
+                            <img src="https://ui-avatars.com/api/?name=Edwin+A&background=random" alt="Team">
+                            <div>
+                                <h4>Edwin Adenike</h4>
+                                <p>Sistem Pengaduan Masyarakat</p>
+                            </div>
+                            <span class="badge progress">Proses</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Progress -->
+                <div class="card col-span-1 flex-center">
+                    <h3>Progres Implementasi</h3>
+                    <div class="progress-circle">
+                        <span>41%</span>
+                        <p>Fase 1 Selesai</p>
+                    </div>
+                </div>
+
+                <!-- Time Tracker -->
+                <div class="card col-span-1 tracker-card">
+                    <h3>Uptime Sistem Pusat</h3>
+                    <div class="timer" id="systemTimer">00:00:00</div>
+                    <div class="tracker-controls">
+                        <button><i class="fa-solid fa-pause"></i></button>
+                        <button class="stop"><i class="fa-solid fa-stop"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

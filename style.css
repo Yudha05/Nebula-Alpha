@@ -1,0 +1,620 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-main: #f5f7f9;
+    --bg-card: #ffffff;
+    --text-dark: #1a1c20;
+    --text-muted: #7e8299;
+    --primary: #8204c5;
+    --primary-light: #e6f2ed;
+    --border-color: #eff2f5;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 8px;
+    --sidebar-width: 260px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+    
+    /* --- TAMBAHAN KODE UNTUK FIXED SIDEBAR --- */
+    position: fixed;
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    overflow-y: auto; /* Memastikan sidebar bisa di-scroll jika layar pendek */
+}
+
+/* Menyembunyikan scrollbar bawaan pada sidebar agar lebih bersih */
+.sidebar::-webkit-scrollbar {
+    width: 0px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 40px;
+}
+
+.menu-section { margin-bottom: 30px; }
+.menu-title {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.sidebar ul { list-style: none; }
+.sidebar ul li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 5px;
+}
+
+.sidebar ul li:hover, .sidebar ul li.active {
+    background-color: var(--bg-card);
+    color: var(--primary);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.sidebar ul li.logout { color: #dc3545; }
+
+.sidebar-card {
+    margin-top: auto;
+    background: #111;
+    color: white;
+    padding: 25px 20px;
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-card h4 { font-size: 15px; margin-bottom: 5px; }
+.sidebar-card p { font-size: 12px; color: #aaa; margin-bottom: 15px; }
+.btn-download {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 30px 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    
+    /* --- TAMBAHAN KODE UNTUK MENGGESER KONTEN --- */
+    /* Memberi jarak kiri sebesar lebar sidebar ditambah gap */
+    margin-left: calc(var(--sidebar-width) + 20px); 
+    width: calc(100% - var(--sidebar-width) - 20px);
+}
+
+/* Topbar */
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    /* --- TAMBAHAN KODE UNTUK FIXED HEADER --- */
+    position: sticky;
+    top: -30px; /* Mengimbangi padding bawaan dari .main-content */
+    margin-top: -30px; /* Menarik header ke posisi teratas kartu */
+    padding-top: 30px; /* Memberi ruang napas kembali di bagian atas */
+    padding-bottom: 20px;
+    
+    background-color: var(--bg-card); /* Background putih solid agar konten yang di-scroll tidak tembus */
+    z-index: 100; /* Memastikan header ini selalu berada di atas elemen lain */
+    border-bottom: 1px solid var(--border-color); /* Memberi garis batas pemisah saat konten di bawahnya di-scroll */
+}
+
+.search-bar {
+    background: var(--bg-main);
+    padding: 12px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 300px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    color: var(--text-dark);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+}
+.user-profile img { width: 40px; height: 40px; border-radius: 50%; }
+.user-info .user-name { font-weight: 600; font-size: 14px; }
+.user-info .user-email { font-size: 12px; color: var(--text-muted); }
+
+/* Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.page-header h1 { font-size: 26px; margin-bottom: 5px; }
+.page-header p { color: var(--text-muted); font-size: 14px; }
+
+.header-actions { display: flex; gap: 15px; }
+.btn-primary, .btn-outline {
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-dark); }
+.full-width { width: 100%; }
+.mt-10 { margin-top: 20px; }
+.mt-20 { margin-top: 20px; }
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+    /* --- TAMBAHAN KODE UNTUK HOVER --- */
+    transition: all 0.3s ease; /* Memberikan efek animasi transisi yang halus */
+    cursor: pointer; /* Mengubah kursor menjadi bentuk tangan (pointer/crosshair) */
+}
+
+/* Efek yang terjadi saat kursor menyentuh card */
+.stat-card:hover {
+    background: var(--primary); /* Mengubah background menjadi hijau gelap */
+    color: white; /* Mengubah teks menjadi putih */
+    border-color: var(--primary);
+    transform: translateY(-5px); /* Opsional: Memberi efek card sedikit terangkat */
+    box-shadow: 0 10px 20px rgba(21, 109, 75, 0.15); /* Opsional: Memberi bayangan */
+}
+
+/* Mengubah warna teks deskripsi kecil di dalam card saat dihover */
+.stat-card:hover p {
+    color: rgba(255,255,255,0.8); 
+}
+
+/* Style default untuk stat-card yang sedang aktif (tetap seperti semula) */
+.stat-card.active-stat {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+.stat-card.active-stat p { 
+    color: rgba(255,255,255,0.8); 
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+.stat-card h2 { font-size: 32px; font-weight: 700; }
+.stat-card p { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+
+/* Grids */
+.content-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+}
+.card h3 { font-size: 16px; margin-bottom: 20px; font-weight: 600; }
+.card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.card-header-flex h3 { margin-bottom: 0; }
+.btn-small { background: transparent; border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 15px; font-size: 12px; cursor: pointer; }
+
+/* Dummy Chart */
+.chart-dummy {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    height: 120px;
+}
+.bar { flex: 1; background: #e0e0e0; border-radius: 20px 20px 0 0; }
+.dark-bar { background: var(--primary); }
+
+/* Lists */
+.project-list, .team-list { list-style: none; display: flex; flex-direction: column; gap: 15px; }
+.project-list li, .team-list li { display: flex; align-items: center; gap: 15px; }
+.icon { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 16px; }
+.icon.blue { background: #e6f0ff; color: #0066ff; }
+.icon.green { background: #e6f9e6; color: #00a300; }
+.project-list h4, .team-list h4 { font-size: 14px; font-weight: 600; }
+.project-list p, .team-list p { font-size: 12px; color: var(--text-muted); }
+
+.team-list img { width: 40px; height: 40px; border-radius: 50%; }
+.badge { margin-left: auto; font-size: 11px; padding: 4px 8px; border-radius: 10px; font-weight: 600; }
+.badge.completed { background: #e6f9e6; color: #00a300; }
+.badge.progress { background: #fff4e6; color: #f59e0b; }
+
+/* Progress Circle Dummy */
+.flex-center { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.progress-circle {
+    width: 150px; 
+    height: 150px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-circle::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    border: 15px solid var(--border-color);
+    border-top-color: var(--primary); /* Warna garis progres */
+    transform: rotate(45deg); /* Rotasi hanya memengaruhi garis tepi */
+    z-index: 0;
+}
+
+.progress-circle span, 
+.progress-circle p {
+    position: relative;
+    z-index: 1;
+    margin: 0; 
+}
+
+.progress-circle span { 
+    font-size: 30px; 
+    font-weight: 700; 
+}
+
+.progress-circle p { 
+    font-size: 12px; 
+    color: var(--text-muted); 
+}
+
+/* Tracker Card */
+.tracker-card {
+    background: #650598;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+.tracker-card h3 { color: rgba(255,255,255,0.8); }
+.timer { font-size: 36px; font-weight: 700; margin: 15px 0; font-family: monospace; }
+.tracker-controls { display: flex; gap: 10px; }
+.tracker-controls button { width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; }
+.tracker-controls button.stop { background: #ef4444; }
+
+/* Responsive basics */
+@media (max-width: 1024px) {
+    .content-grid-3, .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 0; 
+    }
+    .sidebar { width: 100%; height: auto; }
+    .content-grid-3, .stats-grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================= */
+
+/* Tombol Hamburger (Disembunyikan di Layar Besar) */
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-dark);
+}
+
+/* Tombol Tutup Sidebar (Disembunyikan di Desktop) */
+.close-sidebar {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.close-sidebar:hover {
+    color: #ef4444; /* Berubah merah saat dihover */
+    transform: scale(1.1);
+}
+
+/* --- TAMPILAN TABLET (Lebar Layar Maksimal 1024px) --- */
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr); /* Dari 4 kolom menjadi 2 kolom */
+    }
+    .content-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Memaksa kartu ujung (Time Tracker) melebar agar layout rapi */
+    .tracker-card {
+        grid-column: span 2; 
+    }
+}
+
+/* --- TAMPILAN MOBILE (Lebar Layar Maksimal 768px) --- */
+@media (max-width: 768px) {
+    /* 1. Penyesuaian Ruang Utama */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px 15px; /* Jarak aman untuk konten di dalamnya */
+        border-radius: 0; /* Menghilangkan sudut melengkung agar membaur penuh di layar HP */
+    }
+
+    /* 2. Menyembunyikan Sidebar ke luar layar kiri (Off-Canvas) */
+    .close-sidebar {
+        display: block; 
+    }
+    
+    /* Penyesuaian Sidebar agar Logo tidak tertutup tombol Close */
+    .sidebar {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100vh; /* Memastikan sidebar memanjang penuh dari atas ke bawah */
+        padding-left: 20px; /* Memberi jarak aman antara teks menu dan tepi kiri */
+        padding-top: 60px; 
+        border-radius: 0; /* Menghapus lengkungan sidebar */
+        transform: translateX(-100%);
+        z-index: 1000;
+        transition: transform 0.3s ease;
+        box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    .sidebar .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        margin-bottom: 0;
+    }
+
+    /* Penataan Ulang Header (Topbar) Mobile yang Lebih Rapi */
+    .topbar {
+        top: -15px; 
+        margin-top: -15px;
+        padding-top: 15px;
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: space-between; 
+        align-items: center;
+        gap: 15px;
+    }
+
+    .hamburger {
+        display: flex;
+        align-items: center;
+        order: 1; 
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+        order: 2;
+        gap: 10px;
+    }
+
+    .search-bar {
+        order: 3; /* Turun ke Baris Baru */
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .user-info {
+        display: none;
+    }
+    
+    .user-profile img {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* 4. Menata Ulang Header Dashboard & Tombol */
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .header-actions {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+    }
+    .header-actions button {
+        flex: 1; /* Tombol membagi lebar rata 50:50 */
+        justify-content: center;
+        padding: 12px;
+    }
+
+    /* 5. Semua Grid Menjadi 1 Kolom Tersusun ke Bawah */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .content-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    .tracker-card {
+        grid-column: span 1; /* Mengembalikan ukuran time tracker */
+    }
+}
+
+/* =========================================
+   EFEK HOVER UNTUK SEMUA ELEMEN INTERAKTIF
+   ========================================= */
+
+/* Transisi dasar agar perubahan tidak kaku */
+.btn-primary, .btn-outline, .btn-small, .btn-download, 
+.icon-btn, .user-profile, .search-bar, 
+.project-list li, .team-list li, .tracker-controls button {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* 1. Tombol Utama (Tambah Proyek, Mulai Rapat) */
+.btn-primary:hover {
+    background: #8204c5; /* Berubah menjadi hijau lebih gelap */
+    box-shadow: 0 4px 12px rgba(21, 109, 75, 0.2); /* Efek bayangan memendar */
+    transform: translateY(-2px); /* Efek tombol sedikit terangkat */
+}
+
+/* 2. Tombol Sekunder / Outline (Impor Data) */
+.btn-outline:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* 3. Tombol Kecil (+ Baru, + Tambah di dalam Card) */
+.btn-small:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(21, 109, 75, 0.15);
+}
+
+/* 4. Tombol Unduh di Sidebar */
+.btn-download:hover {
+    background: #0e4e35;
+    transform: scale(1.02);
+}
+
+/* 5. Ikon Topbar (Pesan, Notifikasi) */
+.icon-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+/* 6. Bilah Pencarian (Hover & Saat Diklik/Fokus) */
+.search-bar:hover, .search-bar:focus-within {
+    background: #ffffff;
+    box-shadow: 0 0 0 2px var(--primary-light); /* Muncul ring hijau tipis */
+}
+
+/* 7. Profil Admin */
+.user-profile:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+/* 8. Daftar Proyek & Tim (Memberi efek baris tabel) */
+.project-list li, .team-list li {
+    padding: 8px 10px; /* Menambah ruang klik */
+    border-radius: var(--radius-sm);
+    margin-left: -10px; /* Menyesuaikan margin agar tetap rata dengan judul */
+    margin-right: -10px;
+}
+.project-list li:hover, .team-list li:hover {
+    background-color: var(--bg-main); /* Latar belakang abu-abu sangat muda */
+    transform: translateX(5px); /* Efek teks bergeser sedikit ke kanan */
+}
+
+/* 9. Tombol Kontrol pada Uptime (Time Tracker) */
+.tracker-controls button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1); /* Tombol membesar sedikit */
+}
+.tracker-controls button.stop:hover {
+    background: #b91c1c; /* Warna merah lebih gelap saat hover tombol stop */
+}
