@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Analitik Kota</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li onclick="window.location.href='index.html'"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li onclick="window.location.href='iot-sensors.html'"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li onclick="window.location.href='jadwal-publik.html'"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li class="active"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li onclick="window.location.href='tim-smart-gov.html'"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari laporan data, metrik, atau sektor...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Analitik Data Kota</h1>
+                    <p>Visualisasi tren lalu lintas, kualitas lingkungan, dan wawasan cerdas berbasis AI.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-download"></i> Unduh Laporan</button>
+                    <button class="btn-outline"><i class="fa-regular fa-calendar-days"></i> Filter Waktu</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid untuk Analitik -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Indeks Kualitas Udara</h3>
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+                    <h2>42</h2>
+                    <p><i class="fa-solid fa-circle-check"></i> Status: Kategori Baik</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Efisiensi Energi Kota</h3>
+                        <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
+                    </div>
+                    <h2>+14%</h2>
+                    <p><i class="fa-solid fa-arrow-trend-up"></i> Penghematan bulan ini</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Kepadatan Lalin (Rata-rata)</h3>
+                        <i class="fa-solid fa-car-side" style="color: #0284c7;"></i>
+                    </div>
+                    <h2>68%</h2>
+                    <p><i class="fa-solid fa-arrow-trend-down"></i> Menurun 5% dari minggu lalu</p>
+                </div>
+            </div>
+
+            <!-- Middle Sections (Bar Chart & Progress) -->
+            <div class="content-grid-3 mt-20">
+                
+                <!-- Grafik Volume Kendaraan (Span 2 kolom) -->
+                <div class="card col-span-2">
+                    <div class="card-header-flex">
+                        <h3>Tren Volume Lalu Lintas (7 Hari Terakhir)</h3>
+                        <button class="btn-small" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);">Detail</button>
+                    </div>
+                    
+                    <!-- Simulasi Bar Chart CSS -->
+                    <div class="css-bar-chart">
+                        <div class="chart-col">
+                            <div class="bar" style="height: 60%;"></div>
+                            <span class="day-label">Sen</span>
+                        </div>
+                        <div class="chart-col">
+                            <div class="bar" style="height: 75%;"></div>
+                            <span class="day-label">Sel</span>
+                        </div>
+                        <div class="chart-col">
+                            <div class="bar" style="height: 85%;"></div>
+                            <span class="day-label">Rab</span>
+                        </div>
+                        <div class="chart-col">
+                            <div class="bar bar-highlight" style="height: 95%;"></div>
+                            <span class="day-label">Kam</span>
+                        </div>
+                        <div class="chart-col">
+                            <div class="bar" style="height: 50%;"></div>
+                            <span class="day-label">Jum</span>
+                        </div>
+                        <div class="chart-col">
+                            <div class="bar" style="height: 40%;"></div>
+                            <span class="day-label">Sab</span>
+                        </div>
+                        <div class="chart-col">
+                            <div class="bar" style="height: 30%;"></div>
+                            <span class="day-label">Min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distribusi Konsumsi Energi (Span 1 kolom) -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Konsumsi Listrik Sektor</h3>
+                    </div>
+                    
+                    <div class="progress-list mt-10">
+                        <!-- Item 1 -->
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Penerangan Jalan (PJU)</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" style="width: 45%; background: var(--primary);"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Gedung Pemerintahan</span>
+                                <span>30%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" style="width: 30%; background: #0ea5e9;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Fasilitas Publik (Pompa Air, dll)</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" style="width: 15%; background: #f59e0b;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="progress-item">
+                            <div class="progress-info">
+                                <span>Lainnya</span>
+                                <span>10%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" style="width: 10%; background: #94a3b8;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section (Insights) -->
+            <div class="content-grid-3 mt-20">
+                <div class="card col-span-3">
+                    <div class="card-header-flex">
+                        <h3>Rekomendasi & AI Insights</h3>
+                    </div>
+                    <div class="insight-grid">
+                        <div class="insight-card">
+                            <div class="insight-icon bg-blue"><i class="fa-solid fa-lightbulb"></i></div>
+                            <div>
+                                <h4>Optimalisasi Lampu Lalin</h4>
+                                <p>Sistem AI menyarankan penambahan durasi lampu hijau sebesar 15 detik di Simpang Lima selama jam sibuk (07:00 - 09:00) untuk mengurai antrean kendaraan.</p>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-icon bg-green"><i class="fa-solid fa-leaf"></i></div>
+                            <div>
+                                <h4>Pengurangan Emisi Karbon</h4>
+                                <p>Tingkat emisi di Sektor Selatan turun 12% sejak kebijakan rekayasa lalu lintas diterapkan minggu lalu. Dipertahankan sebagai rute standar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

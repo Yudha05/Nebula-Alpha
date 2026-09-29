@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - IoT Sensors Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li onclick="window.location.href='index.html'"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li class="active"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li onclick="window.location.href='jadwal-publik.html'"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li onclick="window.location.href='analitik-kota.html'"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li onclick="window.location.href='tim-smart-gov.html'"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari ID sensor, lokasi, tipe...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Manajemen Jaringan IoT</h1>
+                    <p>Pantau status, lokasi, dan metrik real-time dari seluruh sensor pintar di kota.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Registrasi Sensor</button>
+                    <button class="btn-outline"><i class="fa-solid fa-rotate-right"></i> Pindai Jaringan</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid untuk IoT -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Total Sensor Aktif</h3>
+                        <i class="fa-solid fa-satellite-dish"></i>
+                    </div>
+                    <h2>1,204</h2>
+                    <p><i class="fa-solid fa-check-circle" style="color: #10b981;"></i> 98% Online</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Sensor Offline</h3>
+                        <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>
+                    </div>
+                    <h2>18</h2>
+                    <p>Membutuhkan pengecekan</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Peringatan Kritis</h3>
+                        <i class="fa-solid fa-bell" style="color: #f59e0b;"></i>
+                    </div>
+                    <h2>3</h2>
+                    <p>Polusi udara tinggi & Banjir</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Rata-rata Uptime</h3>
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h2>99.8%</h2>
+                    <p>Dalam 30 hari terakhir</p>
+                </div>
+            </div>
+
+            <!-- Middle Sections -->
+            <div class="content-grid-3">
+                
+                <!-- Daftar Sensor Aktif (Span 2 kolom) -->
+                <div class="card col-span-2">
+                    <div class="card-header-flex">
+                        <h3>Daftar Sensor & Perangkat</h3>
+                        <button class="btn-small">Lihat Semua</button>
+                    </div>
+                    
+                    <ul class="sensor-list">
+                        <!-- Sensor 1 -->
+                        <li class="sensor-item">
+                            <div class="sensor-info">
+                                <div class="sensor-icon bg-blue"><i class="fa-solid fa-wind"></i></div>
+                                <div>
+                                    <h4>Air Quality Monitor (AQ-01)</h4>
+                                    <p>Taman Kota | Terakhir update: 2 mnt lalu</p>
+                                </div>
+                            </div>
+                            <div class="sensor-status">
+                                <span class="status-badge status-active">Aktif</span>
+                            </div>
+                        </li>
+
+                        <!-- Sensor 2 -->
+                        <li class="sensor-item">
+                            <div class="sensor-info">
+                                <div class="sensor-icon bg-yellow"><i class="fa-solid fa-traffic-light"></i></div>
+                                <div>
+                                    <h4>Smart Traffic AI (TL-44)</h4>
+                                    <p>Perempatan Sudirman | Terakhir update: 5 dtk lalu</p>
+                                </div>
+                            </div>
+                            <div class="sensor-status">
+                                <span class="status-badge status-active">Aktif</span>
+                            </div>
+                        </li>
+
+                        <!-- Sensor 3 -->
+                        <li class="sensor-item">
+                            <div class="sensor-info">
+                                <div class="sensor-icon bg-red"><i class="fa-solid fa-trash-can"></i></div>
+                                <div>
+                                    <h4>Waste Bin Sensor (WB-12)</h4>
+                                    <p>Pasar Induk | Terakhir update: 5 jam lalu</p>
+                                </div>
+                            </div>
+                            <div class="sensor-status">
+                                <span class="status-badge status-offline">Offline</span>
+                            </div>
+                        </li>
+
+                        <!-- Sensor 4 -->
+                        <li class="sensor-item">
+                            <div class="sensor-info">
+                                <div class="sensor-icon bg-blue"><i class="fa-solid fa-water"></i></div>
+                                <div>
+                                    <h4>Water Level Detector (FL-05)</h4>
+                                    <p>Pintu Air Manggarai | Terakhir update: 1 mnt lalu</p>
+                                </div>
+                            </div>
+                            <div class="sensor-status">
+                                <span class="status-badge status-maintenance">Maintenance</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Anomali & Notifikasi (Span 1 kolom) -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Deteksi Anomali</h3>
+                    </div>
+                    <div class="alert-box alert-critical">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <div>
+                            <h4>Polusi Tinggi (AQ-01)</h4>
+                            <p>PM2.5 melebihi batas aman di Taman Kota.</p>
+                        </div>
+                    </div>
+                    <div class="alert-box alert-warning mt-10">
+                        <i class="fa-solid fa-plug-circle-xmark"></i>
+                        <div>
+                            <h4>Koneksi Terputus (WB-12)</h4>
+                            <p>Sensor tidak merespon sejak 10:00 WIB.</p>
+                        </div>
+                    </div>
+                    <div class="alert-box alert-warning mt-10">
+                        <i class="fa-solid fa-battery-quarter"></i>
+                        <div>
+                            <h4>Baterai Lemah (PK-09)</h4>
+                            <p>Sensor parkir Blok M sisa 15%.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Tim Smart Gov</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar (Pastikan sidebar ini sama di semua halaman agar navigasi berfungsi) -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li onclick="window.location.href='index.html'"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li onclick="window.location.href='iot-sensors.html'"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li onclick="window.location.href='jadwal-publik.html'"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li onclick="window.location.href='analitik-kota.html'"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li class="active"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari nama pegawai, ID, atau divisi...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Tim Smart Gov</h1>
+                    <p>Manajemen personel, divisi tata kota, dan operator sistem pusat Nebula.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-user-plus"></i> Tambah Anggota</button>
+                    <button class="btn-outline"><i class="fa-solid fa-file-export"></i> Ekspor Data</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid untuk Tim -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Total Personel</h3>
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h2>128</h2>
+                    <p><i class="fa-solid fa-circle-check"></i> 115 Hadir Hari Ini</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Tim Lapangan</h3>
+                        <i class="fa-solid fa-helmet-safety" style="color: #f59e0b;"></i>
+                    </div>
+                    <h2>45</h2>
+                    <p>Sedang bertugas (On-Site)</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Operator Pusat</h3>
+                        <i class="fa-solid fa-headset" style="color: #0284c7;"></i>
+                    </div>
+                    <h2>32</h2>
+                    <p>Standby di Command Center</p>
+                </div>
+            </div>
+
+            <!-- Bagian Filter & Kategori -->
+            <div class="card mt-20">
+                <div class="card-header-flex">
+                    <h3>Direktori Anggota Tim</h3>
+                    <div class="filter-pills">
+                        <span class="pill pill-active">Semua</span>
+                        <span class="pill">Command Center</span>
+                        <span class="pill">IT & Jaringan</span>
+                        <span class="pill">Tim Lapangan</span>
+                    </div>
+                </div>
+
+                <!-- Grid Kartu Profil Anggota -->
+                <div class="team-grid mt-20">
+                    <!-- Anggota 1 -->
+                    <div class="team-profile-card">
+                        <div class="profile-header bg-blue"></div>
+                        <img src="https://ui-avatars.com/api/?name=Budi+Santoso&background=fff&color=0284c7" alt="Avatar" class="profile-avatar">
+                        <h4>Budi Santoso</h4>
+                        <p class="role">Kepala Command Center</p>
+                        <div class="profile-stats">
+                            <div>
+                                <span>ID</span>
+                                <strong>NG-001</strong>
+                            </div>
+                            <div>
+                                <span>Status</span>
+                                <strong style="color: #16a34a;">Aktif</strong>
+                            </div>
+                        </div>
+                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                    </div>
+
+                    <!-- Anggota 2 -->
+                    <div class="team-profile-card">
+                        <div class="profile-header bg-purple"></div>
+                        <img src="https://ui-avatars.com/api/?name=Siti+Aisyah&background=fff&color=9333ea" alt="Avatar" class="profile-avatar">
+                        <h4>Siti Aisyah</h4>
+                        <p class="role">Lead Data Analyst</p>
+                        <div class="profile-stats">
+                            <div>
+                                <span>ID</span>
+                                <strong>NG-012</strong>
+                            </div>
+                            <div>
+                                <span>Status</span>
+                                <strong style="color: #16a34a;">Aktif</strong>
+                            </div>
+                        </div>
+                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                    </div>
+
+                    <!-- Anggota 3 -->
+                    <div class="team-profile-card">
+                        <div class="profile-header bg-yellow"></div>
+                        <img src="https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=fff&color=ca8a04" alt="Avatar" class="profile-avatar">
+                        <h4>Ahmad Fauzi</h4>
+                        <p class="role">Teknisi IoT Lapangan</p>
+                        <div class="profile-stats">
+                            <div>
+                                <span>ID</span>
+                                <strong>NG-045</strong>
+                            </div>
+                            <div>
+                                <span>Status</span>
+                                <strong style="color: #ca8a04;">On-Site</strong>
+                            </div>
+                        </div>
+                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                    </div>
+
+                    <!-- Anggota 4 -->
+                    <div class="team-profile-card">
+                        <div class="profile-header bg-gray"></div>
+                        <img src="https://ui-avatars.com/api/?name=Diana+Putri&background=fff&color=475569" alt="Avatar" class="profile-avatar">
+                        <h4>Diana Putri</h4>
+                        <p class="role">Staf Administrasi</p>
+                        <div class="profile-stats">
+                            <div>
+                                <span>ID</span>
+                                <strong>NG-088</strong>
+                            </div>
+                            <div>
+                                <span>Status</span>
+                                <strong style="color: #dc2626;">Cuti</strong>
+                            </div>
+                        </div>
+                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

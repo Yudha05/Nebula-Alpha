@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Pengaturan Sistem</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li onclick="window.location.href='index.html'"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li onclick="window.location.href='iot-sensors.html'"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li onclick="window.location.href='jadwal-publik.html'"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li onclick="window.location.href='analitik-kota.html'"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li onclick="window.location.href='tim-smart-gov.html'"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li class="active"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari pengaturan spesifik...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Pengaturan Sistem</h1>
+                    <p>Kelola preferensi akun, keamanan, dan konfigurasi notifikasi platform Nebula.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-grid-3 mt-20">
+                
+                <!-- Profil Akun (Kiri - Lebar 2 Kolom) -->
+                <div class="card col-span-2">
+                    <div class="card-header-flex">
+                        <h3>Profil Pengguna</h3>
+                    </div>
+                    
+                    <div class="profile-settings mt-10">
+                        <div class="profile-pic-section">
+                            <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=e0f2fe&color=0284c7" alt="Profile">
+                            <div>
+                                <button class="btn-outline btn-small"><i class="fa-solid fa-camera"></i> Ubah Foto</button>
+                                <p class="help-text">JPG, GIF atau PNG. Maks 2MB.</p>
+                            </div>
+                        </div>
+
+                        <form class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" value="Admin Smart City" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat Email</label>
+                                    <input type="email" value="admin@nebula.gov" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Peran (Role)</label>
+                                    <select class="form-control" disabled>
+                                        <option>Super Admin</option>
+                                        <option>Operator</option>
+                                        <option>Viewer</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor Telepon</label>
+                                    <input type="text" value="+62 812 3456 7890" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Bio / Deskripsi Tugas</label>
+                                <textarea class="form-control" rows="3">Penanggung jawab utama pemantauan Command Center Nebula, mengawasi pergerakan trafik dan sensor kualitas lingkungan kota.</textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Preferensi & Keamanan (Kanan - 1 Kolom) -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Keamanan Sistem</h3>
+                    </div>
+                    <div class="security-list mt-10">
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <i class="fa-solid fa-key" style="color: var(--primary);"></i>
+                                <div>
+                                    <h4>Kata Sandi</h4>
+                                    <p>Terakhir diubah 30 hari lalu</p>
+                                </div>
+                            </div>
+                            <button class="btn-small btn-outline">Ubah</button>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <i class="fa-solid fa-shield-halved" style="color: #0ea5e9;"></i>
+                                <div>
+                                    <h4>Autentikasi 2 Langkah</h4>
+                                    <p>Amankan akun dengan 2FA</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <i class="fa-solid fa-laptop-code" style="color: #f59e0b;"></i>
+                                <div>
+                                    <h4>Sesi Perangkat</h4>
+                                    <p>2 Perangkat aktif saat ini</p>
+                                </div>
+                            </div>
+                            <button class="btn-small btn-outline">Kelola</button>
+                        </div>
+                    </div>
+
+                    <div class="card-header-flex" style="margin-top: 30px;">
+                        <h3>Notifikasi (Peringatan)</h3>
+                    </div>
+                    <div class="security-list mt-10">
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <div>
+                                    <h4>Peringatan Kritis (Polusi/Banjir)</h4>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <div>
+                                    <h4>Laporan Harian (Email)</h4>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <div>
+                                    <h4>Update Sensor Offline</h4>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

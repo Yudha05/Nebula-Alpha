@@ -6,7 +6,7 @@
     <title>Nebula - Smart City & Business Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="/Vibrant 3D Nebula Icon with Colorful Gases.jpg" type="image/x-icon">
-    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -24,19 +24,19 @@
             <div class="menu-section">
                 <p class="menu-title">MENU</p>
                 <ul>
-                    <li><i class="fa-solid fa-border-all"></i> Dashboard</li>
-                    <li><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
-                    <li><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
-                    <li><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
-                    <li><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                    <li class="active"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li onclick="window.location.href='iot-sensors.html'"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li onclick="window.location.href='jadwal-publik.html'"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li onclick="window.location.href='analitik-kota.html'"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li onclick="window.location.href='tim-smart-gov.html'"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
                 </ul>
             </div>
 
             <div class="menu-section">
                 <p class="menu-title">GENERAL</p>
                 <ul>
-                    <li><i class="fa-solid fa-gear"></i> Pengaturan</li>
-                    <li><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
                     <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
@@ -223,5 +223,37 @@
         </main>
     </div>
     <script src="script.js"></script>
+    <script>
+        // Fungsi sederhana untuk menjalankan Time Tracker pada dashboard
+        document.addEventListener("DOMContentLoaded", () => {
+            const timerDisplay = document.getElementById('systemTimer');
+            
+            // Setel waktu dummy (misal sistem sudah jalan 1 jam, 24 menit, 8 detik)
+            let hours = 1;
+            let minutes = 24;
+            let seconds = 8;
+
+            function formatTime(val) {
+                return val < 10 ? `0${val}` : val;
+            }
+
+            function updateTimer() {
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes++;
+                    if (minutes >= 60) {
+                        minutes = 0;
+                        hours++;
+                    }
+                }
+                
+                timerDisplay.textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+            }
+
+            // Perbarui timer setiap 1 detik
+            const timerInterval = setInterval(updateTimer, 1000);
+        });
+    </script>
 </body>
 </html>

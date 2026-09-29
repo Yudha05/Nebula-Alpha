@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Pusat Bantuan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li onclick="window.location.href='index.html'"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li onclick="window.location.href='iot-sensors.html'"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li onclick="window.location.href='jadwal-publik.html'"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li onclick="window.location.href='analitik-kota.html'"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li onclick="window.location.href='tim-smart-gov.html'"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li class="active"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari pengaturan spesifik...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Pusat Bantuan & Dukungan</h1>
+                    <p>Temukan jawaban cepat, panduan sistem, atau hubungi tim teknis Nebula.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-headset"></i> Live Chat</button>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid-3 mt-20">
+                
+                <!-- Kiri: FAQ (Span 2) -->
+                <div class="card col-span-2">
+                    <div class="card-header-flex">
+                        <h3>Pertanyaan yang Sering Diajukan (FAQ)</h3>
+                    </div>
+                    
+                    <div class="faq-container mt-10">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>Bagaimana cara mereset sensor IoT yang offline?</h4>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Buka menu <strong>IoT Sensors</strong>, cari sensor yang berstatus "Offline", klik tombol detail (tiga titik), lalu pilih "Kirim Sinyal Restart". Jika dalam 15 menit tidak terhubung, sistem akan otomatis membuat tiket pemeliharaan untuk tim lapangan.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>Cara mengekspor laporan Analitik bulanan?</h4>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Masuk ke menu <strong>Analitik Kota</strong>, klik tombol "Unduh Laporan" di pojok kanan atas. Anda dapat memilih format PDF, CSV, atau Excel, serta menentukan rentang waktu data yang ingin diunduh.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h4>Bagaimana cara menambah anggota tim baru?</h4>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Hanya pengguna dengan peran "Super Admin" yang dapat melakukan ini. Buka halaman <strong>Tim Smart Gov</strong>, klik "Tambah Anggota", isi detail profil, dan sistem akan mengirimkan email undangan otomatis ke anggota baru tersebut.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kanan: Form Kontak & Panduan (Span 1) -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Hubungi Tim Dukungan IT</h3>
+                    </div>
+                    <form class="support-form mt-10">
+                        <div class="form-group">
+                            <label>Kategori Masalah</label>
+                            <select class="form-control">
+                                <option>Kendala Jaringan / Server</option>
+                                <option>Bug Sistem / Aplikasi</option>
+                                <option>Laporan Sensor Rusak</option>
+                                <option>Pertanyaan Umum</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi Detail</label>
+                            <textarea class="form-control" rows="4" placeholder="Jelaskan masalah Anda secara detail..."></textarea>
+                        </div>
+                        <button type="button" class="btn-primary full-width mt-10" style="justify-content: center;">Kirim Tiket Laporan</button>
+                    </form>
+
+                    <div class="card-header-flex" style="margin-top: 30px;">
+                        <h3>Buku Panduan</h3>
+                    </div>
+                    <div class="docs-list mt-10">
+                        <div class="doc-item">
+                            <i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 24px;"></i>
+                            <div>
+                                <h4>Manual Book Nebula V.2</h4>
+                                <p>2.4 MB - Diperbarui 12 Okt</p>
+                            </div>
+                        </div>
+                        <div class="doc-item">
+                            <i class="fa-solid fa-video" style="color: #0284c7; font-size: 24px;"></i>
+                            <div>
+                                <h4>Video Tutorial Onboarding</h4>
+                                <p>Durasi: 15 Menit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        /*LOGIKA AKORDION FAQ (HALAMAN BANTUAN)*/
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Tutup FAQ lain yang sedang terbuka (opsional)
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                    }
+                });
+
+                // Toggle FAQ yang diklik
+                item.classList.toggle('active');
+                const answer = item.querySelector('.faq-answer');
+                
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px"; // Membuka secara mulus
+                } else {
+                    answer.style.maxHeight = null; // Menutup secara mulus
+                }
+            });
+        });
+    </script>
+</body>
+</html>

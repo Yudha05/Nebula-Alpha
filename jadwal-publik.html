@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Jadwal Publik Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="logo">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h2>Nebula</h2>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">MENU</p>
+                <ul>
+                    <li onclick="window.location.href='index.html'"><i class="fa-solid fa-border-all"></i> Dashboard</li>
+                    <li onclick="window.location.href='iot-sensors.html'"><i class="fa-solid fa-satellite-dish"></i> IoT Sensors</li>
+                    <li class="active"><i class="fa-regular fa-calendar"></i> Jadwal Publik</li>
+                    <li onclick="window.location.href='analitik-kota.html'"><i class="fa-solid fa-chart-simple"></i> Analitik Kota</li>
+                    <li onclick="window.location.href='tim-smart-gov.html'"><i class="fa-solid fa-users"></i> Tim Smart Gov</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">GENERAL</p>
+                <ul>
+                    <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
+                    <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
+                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger" id="menuToggle">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Cari acara, rapat, atau jadwal pemeliharaan...">
+                </div>
+                <div class="topbar-right">
+                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <div class="user-info">
+                            <p class="user-name">Admin Smart City</p>
+                            <p class="user-email">admin@nebula.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Jadwal Kegiatan Publik</h1>
+                    <p>Kelola agenda kota, pemeliharaan fasilitas, dan acara masyarakat dalam satu portal terpusat.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i class="fa-solid fa-calendar-plus"></i> Tambah Jadwal</button>
+                    <button class="btn-outline"><i class="fa-solid fa-filter"></i> Filter</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid untuk Jadwal -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Acara Bulan Ini</h3>
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+                    <h2>42</h2>
+                    <p><i class="fa-solid fa-caret-up"></i> 5 Acara Publik Baru</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Pemeliharaan Rutin</h3>
+                        <i class="fa-solid fa-screwdriver-wrench" style="color: #ca8a04;"></i>
+                    </div>
+                    <h2>15</h2>
+                    <p>Fasilitas kota & sensor</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3>Rapat Pemerintahan</h3>
+                        <i class="fa-solid fa-handshake" style="color: #0284c7;"></i>
+                    </div>
+                    <h2>8</h2>
+                    <p>Terkonfirmasi minggu ini</p>
+                </div>
+            </div>
+
+            <!-- Middle Sections -->
+            <div class="content-grid-3 mt-20">
+                
+                <!-- Daftar Agenda Mendatang (Span 2 kolom) -->
+                <div class="card col-span-2">
+                    <div class="card-header-flex">
+                        <h3>Agenda Mendatang</h3>
+                        <div class="view-options">
+                            <button class="btn-small">Minggu Ini</button>
+                            <button class="btn-small" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);">Bulan Ini</button>
+                        </div>
+                    </div>
+                    
+                    <ul class="schedule-list">
+                        <!-- Agenda 1 -->
+                        <li class="schedule-item">
+                            <div class="date-badge">
+                                <span class="month">NOV</span>
+                                <span class="day">18</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Festival UMKM Digital Kota</h4>
+                                <p>
+                                    <span><i class="fa-regular fa-clock"></i> 08:00 - 17:00 WIB</span> 
+                                    <span><i class="fa-solid fa-location-dot"></i> Alun-Alun Utama</span>
+                                </p>
+                            </div>
+                            <span class="tag tag-public">Acara Publik</span>
+                        </li>
+
+                        <!-- Agenda 2 -->
+                        <li class="schedule-item">
+                            <div class="date-badge">
+                                <span class="month">NOV</span>
+                                <span class="day">20</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Pemeliharaan Server Smart Traffic</h4>
+                                <p>
+                                    <span><i class="fa-regular fa-clock"></i> 01:00 - 04:00 WIB</span> 
+                                    <span><i class="fa-solid fa-server"></i> Pusat Data Center Nebula</span>
+                                </p>
+                            </div>
+                            <span class="tag tag-maintenance">Pemeliharaan</span>
+                        </li>
+
+                        <!-- Agenda 3 -->
+                        <li class="schedule-item">
+                            <div class="date-badge">
+                                <span class="month">NOV</span>
+                                <span class="day">22</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Rapat Evaluasi Anggaran Q4</h4>
+                                <p>
+                                    <span><i class="fa-regular fa-clock"></i> 10:00 - 12:30 WIB</span> 
+                                    <span><i class="fa-solid fa-building"></i> Balai Kota, Ruang A1</span>
+                                </p>
+                            </div>
+                            <span class="tag tag-gov">Rapat Internal</span>
+                        </li>
+                        
+                         <!-- Agenda 4 -->
+                         <li class="schedule-item">
+                            <div class="date-badge">
+                                <span class="month">NOV</span>
+                                <span class="day">25</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Pembersihan Gorong-gorong (Mitigasi Banjir)</h4>
+                                <p>
+                                    <span><i class="fa-regular fa-clock"></i> 07:00 - 15:00 WIB</span> 
+                                    <span><i class="fa-solid fa-map-location-dot"></i> Sektor Utara & Timur</span>
+                                </p>
+                            </div>
+                            <span class="tag tag-maintenance">Pemeliharaan</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Timeline Hari Ini (Span 1 kolom) -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Jadwal Hari Ini</h3>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">09:00 WIB</div>
+                            <div class="timeline-content">
+                                <h4>Briefing Tim Lapangan</h4>
+                                <p>Persiapan patroli fasilitas kota.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">13:30 WIB</div>
+                            <div class="timeline-content">
+                                <h4>Inspeksi Kamera CCTV AI</h4>
+                                <p>Lokasi: Perempatan Sudirman.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">15:00 WIB</div>
+                            <div class="timeline-content">
+                                <h4>Webinar Smart Citizen</h4>
+                                <p>Via Zoom (Host: Kominfo).</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">19:00 WIB</div>
+                            <div class="timeline-content">
+                                <h4>Backup Data Harian</h4>
+                                <p>Otomatis oleh sistem cloud.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-outline full-width mt-20">Lihat Kalender Penuh</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
