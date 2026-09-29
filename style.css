@@ -143,7 +143,7 @@ body {
 
     /* --- TAMBAHAN KODE UNTUK FIXED HEADER --- */
     position: sticky;
-    top: -30px; /* Mengimbangi padding bawaan dari .main-content */
+    top: -20px; /* Mengimbangi padding bawaan dari .main-content */
     margin-top: -30px; /* Menarik header ke posisi teratas kartu */
     padding-top: 30px; /* Memberi ruang napas kembali di bagian atas */
     padding-bottom: 20px;
@@ -471,7 +471,7 @@ body {
 
     /* Penataan Ulang Header (Topbar) Mobile yang Lebih Rapi */
     .topbar {
-        top: -15px; 
+        top: -8px; 
         margin-top: -15px;
         padding-top: 15px;
         display: flex;
