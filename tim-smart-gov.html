@@ -7,11 +7,233 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- MODAL OVERLAY UMUM --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box,
+        .modal-overlay.active .modal-profile-box {
+            transform: scale(1);
+        }
+
+        .modal-icon-laugh {
+            width: 70px;
+            height: 70px;
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .modal-icon-deny {
+            width: 70px;
+            height: 70px;
+            background: #fee2e2;
+            color: #dc2626;
+            font-size: 2.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        /* --- MODAL PROFIL DETAIL ("GO WILD") --- */
+        .modal-profile-box {
+            background: #ffffff;
+            border-radius: 20px;
+            width: 92%;
+            max-width: 580px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            text-align: left;
+        }
+
+        .modal-profile-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-profile-box::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .profile-banner {
+            height: 110px;
+            position: relative;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .profile-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .profile-close-btn:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-body {
+            padding: 0 24px 24px 24px;
+            margin-top: -45px;
+        }
+
+        .profile-avatar-large {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background: #fff;
+        }
+
+        .profile-title-group {
+            margin-top: 10px;
+        }
+
+        .profile-title-group h3 {
+            font-size: 1.35rem;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .profile-title-group p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 2px 0 12px 0;
+            font-weight: 500;
+        }
+
+        .badge-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .profile-info-item span {
+            display: block;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .profile-info-item strong {
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .profile-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #334155;
+            margin: 18px 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-badge {
+            background: #e0f2fe;
+            color: #0284c7;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .bio-text {
+            color: #475569;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Styling Cursor & Clickable Filter Pills */
+        .filter-pills .pill {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
 
-        <!-- Sidebar (Pastikan sidebar ini sama di semua halaman agar navigasi berfungsi) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="close-sidebar" id="closeSidebar">
                 <i class="fa-solid fa-xmark"></i>
@@ -52,7 +274,7 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari nama pegawai, ID, atau divisi...">
+                    <input type="text" id="teamSearchInput" placeholder="Cari nama pegawai, ID, atau divisi...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
@@ -74,8 +296,8 @@
                     <p>Manajemen personel, divisi tata kota, dan operator sistem pusat Nebula.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-user-plus"></i> Tambah Anggota</button>
-                    <button class="btn-outline"><i class="fa-solid fa-file-export"></i> Ekspor Data</button>
+                    <button class="btn-primary" onclick="openAddMemberModal()"><i class="fa-solid fa-user-plus"></i> Tambah Anggota</button>
+                    <button class="btn-outline" onclick="openExportModal()"><i class="fa-solid fa-file-export"></i> Ekspor Data</button>
                 </div>
             </div>
 
@@ -111,18 +333,19 @@
             <div class="card mt-20">
                 <div class="card-header-flex">
                     <h3>Direktori Anggota Tim</h3>
-                    <div class="filter-pills">
-                        <span class="pill pill-active">Semua</span>
-                        <span class="pill">Command Center</span>
-                        <span class="pill">IT & Jaringan</span>
-                        <span class="pill">Tim Lapangan</span>
+                    <div class="filter-pills" id="filterPills">
+                        <span class="pill pill-active" onclick="filterCategory('all', this)">Semua</span>
+                        <span class="pill" onclick="filterCategory('command-center', this)">Command Center</span>
+                        <span class="pill" onclick="filterCategory('it-jaringan', this)">IT & Jaringan</span>
+                        <span class="pill" onclick="filterCategory('tim-lapangan', this)">Tim Lapangan</span>
                     </div>
                 </div>
 
                 <!-- Grid Kartu Profil Anggota -->
-                <div class="team-grid mt-20">
+                <div class="team-grid mt-20" id="teamGrid">
+                    
                     <!-- Anggota 1 -->
-                    <div class="team-profile-card">
+                    <div class="team-profile-card" data-category="command-center" data-name="budi santoso" data-id="ng-001" data-role="kepala command center">
                         <div class="profile-header bg-blue"></div>
                         <img src="https://ui-avatars.com/api/?name=Budi+Santoso&background=fff&color=0284c7" alt="Avatar" class="profile-avatar">
                         <h4>Budi Santoso</h4>
@@ -137,11 +360,11 @@
                                 <strong style="color: #16a34a;">Aktif</strong>
                             </div>
                         </div>
-                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                        <button class="btn-outline full-width mt-10" onclick="openProfileModal('budi')">Lihat Profil</button>
                     </div>
 
                     <!-- Anggota 2 -->
-                    <div class="team-profile-card">
+                    <div class="team-profile-card" data-category="it-jaringan" data-name="siti aisyah" data-id="ng-012" data-role="lead data analyst">
                         <div class="profile-header bg-purple"></div>
                         <img src="https://ui-avatars.com/api/?name=Siti+Aisyah&background=fff&color=9333ea" alt="Avatar" class="profile-avatar">
                         <h4>Siti Aisyah</h4>
@@ -156,11 +379,11 @@
                                 <strong style="color: #16a34a;">Aktif</strong>
                             </div>
                         </div>
-                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                        <button class="btn-outline full-width mt-10" onclick="openProfileModal('siti')">Lihat Profil</button>
                     </div>
 
                     <!-- Anggota 3 -->
-                    <div class="team-profile-card">
+                    <div class="team-profile-card" data-category="tim-lapangan" data-name="ahmad fauzi" data-id="ng-045" data-role="teknisi iot lapangan">
                         <div class="profile-header bg-yellow"></div>
                         <img src="https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=fff&color=ca8a04" alt="Avatar" class="profile-avatar">
                         <h4>Ahmad Fauzi</h4>
@@ -175,11 +398,11 @@
                                 <strong style="color: #ca8a04;">On-Site</strong>
                             </div>
                         </div>
-                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                        <button class="btn-outline full-width mt-10" onclick="openProfileModal('ahmad')">Lihat Profil</button>
                     </div>
 
                     <!-- Anggota 4 -->
-                    <div class="team-profile-card">
+                    <div class="team-profile-card" data-category="command-center" data-name="diana putri" data-id="ng-088" data-role="staf administrasi">
                         <div class="profile-header bg-gray"></div>
                         <img src="https://ui-avatars.com/api/?name=Diana+Putri&background=fff&color=475569" alt="Avatar" class="profile-avatar">
                         <h4>Diana Putri</h4>
@@ -194,13 +417,89 @@
                                 <strong style="color: #dc2626;">Cuti</strong>
                             </div>
                         </div>
-                        <button class="btn-outline full-width mt-10">Lihat Profil</button>
+                        <button class="btn-outline full-width mt-10" onclick="openProfileModal('diana')">Lihat Profil</button>
                     </div>
+
                 </div>
             </div>
 
         </main>
     </div>
+
+    <!-- MODAL POP-UP TAMBAH ANGGOTA (Bukan Admin + Gambar Ketawa) -->
+    <div class="modal-overlay" id="addMemberModal">
+        <div class="modal-box">
+            <div class="modal-icon-laugh">
+                <i class="fa-solid fa-face-laugh-squint"></i>
+            </div>
+            <h3 style="margin-bottom: 8px; color: #0f172a;">Akses Ditolak!</h3>
+            <p style="color: #64748b; font-size: 1rem; font-weight: 600; margin-bottom: 24px;">tidak bisa add anda bukan admin</p>
+            <button class="btn-primary" style="width: 100%;" onclick="closeAddMemberModal()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- MODAL POP-UP EKSPOR DATA (Mohon Maaf Tidak Bisa) -->
+    <div class="modal-overlay" id="exportModal">
+        <div class="modal-box">
+            <div class="modal-icon-deny">
+                <i class="fa-solid fa-ban"></i>
+            </div>
+            <h3 style="margin-bottom: 8px; color: #0f172a;">Pemberitahuan</h3>
+            <p style="color: #64748b; font-size: 1rem; font-weight: 500; margin-bottom: 24px;">mohon maaf tidak bisa</p>
+            <button class="btn-primary" style="width: 100%;" onclick="closeExportModal()">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- MODAL POP-UP LIHAT PROFIL (DYNAMIC GO WILD) -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-profile-box">
+            <div class="profile-banner" id="modalBanner">
+                <button class="profile-close-btn" onclick="closeProfileModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="profile-body">
+                <img src="" id="modalAvatar" alt="Avatar" class="profile-avatar-large">
+                
+                <div class="profile-title-group">
+                    <h3 id="modalName">Nama Anggota</h3>
+                    <p id="modalRole">Jabatan & Divisi</p>
+                    <span class="badge-tag" id="modalStatusBadge">STATUS</span>
+                </div>
+
+                <div class="profile-info-grid">
+                    <div class="profile-info-item">
+                        <span>ID Anggota</span>
+                        <strong id="modalID">NG-000</strong>
+                    </div>
+                    <div class="profile-info-item">
+                        <span>Divisi</span>
+                        <strong id="modalDept">Divisi</strong>
+                    </div>
+                    <div class="profile-info-item">
+                        <span>Email</span>
+                        <strong id="modalEmail" style="font-size: 0.8rem; word-break: break-all;">user@nebula.gov</strong>
+                    </div>
+                    <div class="profile-info-item">
+                        <span>Pengalaman</span>
+                        <strong id="modalExp">0 Tahun</strong>
+                    </div>
+                </div>
+
+                <div class="profile-section-title">Biografi Singkat & Peran</div>
+                <p class="bio-text" id="modalBio">Deskripsi biografi anggota...</p>
+
+                <div class="profile-section-title">Keahlian & Spesialisasi</div>
+                <div class="skills-list" id="modalSkills">
+                    <!-- Skills Badge Loaded Dynamic -->
+                </div>
+
+                <div class="profile-section-title">Tugas Utama Hari Ini</div>
+                <p class="bio-text" id="modalTask" style="color: #0284c7; font-weight: 600;"><i class="fa-solid fa-list-check"></i> Memantau trafik jaringan...</p>
+
+                <button class="btn-outline full-width mt-20" onclick="closeProfileModal()">Tutup Profil</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Pop-up Logout -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
@@ -215,6 +514,175 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
+
+    <script>
+        // DATA PROFIL LENGKAP
+        const teamProfiles = {
+            budi: {
+                name: "Budi Santoso",
+                role: "Kepala Command Center",
+                id: "NG-001",
+                dept: "Command Center",
+                email: "budi.santoso@nebula.gov",
+                exp: "8 Tahun",
+                status: "Aktif",
+                statusColor: "#16a34a",
+                bgColor: "#0284c7",
+                avatar: "https://ui-avatars.com/api/?name=Budi+Santoso&background=fff&color=0284c7",
+                bio: "Budi adalah veteran dalam manajemen krisis kota pintar. Memimpin 30+ operator di Command Center 24/7 dengan respons darurat rata-rata di bawah 3 menit.",
+                skills: ["Crisis Management", "Incident Response", "Smart Grid Surveillance", "Public Safety"],
+                task: "Memimpin koordinasi tanggap darurat banjir Sektor Timur & pengawasan lalu lintas sore."
+            },
+            siti: {
+                name: "Siti Aisyah",
+                role: "Lead Data Analyst",
+                id: "NG-012",
+                dept: "IT & Jaringan",
+                email: "siti.aisyah@nebula.gov",
+                exp: "5 Tahun",
+                status: "Aktif",
+                statusColor: "#16a34a",
+                bgColor: "#9333ea",
+                avatar: "https://ui-avatars.com/api/?name=Siti+Aisyah&background=fff&color=9333ea",
+                bio: "Spesialis Machine Learning & AI Prediktif Kota. Siti merancang algoritma prediksi titik kemacetan dan analisis polusi udara otomatis untuk platform Nebula.",
+                skills: ["Python/R", "AI & Predictive Analytics", "Big Data Visualization", "SQL Databases"],
+                task: "Mengoptimalkan model AI untuk pemetaan kualitas udara berbasis IoT real-time."
+            },
+            ahmad: {
+                name: "Ahmad Fauzi",
+                role: "Teknisi IoT Lapangan",
+                id: "NG-045",
+                dept: "Tim Lapangan",
+                email: "ahmad.fauzi@nebula.gov",
+                exp: "4 Tahun",
+                status: "On-Site",
+                statusColor: "#ca8a04",
+                bgColor: "#ca8a04",
+                avatar: "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=fff&color=ca8a04",
+                bio: "Gardu terdepan dalam keandalan hardware Nebula. Ahli memanjat tower sensor, kalibrasi CCTV AI, dan perbaikan perangkat telemetri air di seluruh penjuru kota.",
+                skills: ["IoT Hardware Repair", "LoRaWAN Network", "CCTV AI Maintenance", "Solar Power Grid"],
+                task: "Penggantian modul sensor banjir ultrasonik di Jembatan Sektor Utara."
+            },
+            diana: {
+                name: "Diana Putri",
+                role: "Staf Administrasi & Protokoler",
+                id: "NG-088",
+                dept: "Command Center",
+                email: "diana.putri@nebula.gov",
+                exp: "3 Tahun",
+                status: "Cuti",
+                statusColor: "#dc2626",
+                bgColor: "#475569",
+                avatar: "https://ui-avatars.com/api/?name=Diana+Putri&background=fff&color=475569",
+                bio: "Pengelola dokumentasi operasional, surat izin akses sistem, serta pengarsipan data statistik publik Nebula. Saat ini sedang menjalankan cuti tahunan.",
+                skills: ["Public Relations", "Data Archiving", "Government Protocol", "Resource Planning"],
+                task: "Dalam masa cuti tahunan hingga 24 November (Tugas diwakilkan sementara)."
+            }
+        };
+
+        let currentCategory = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. LIVE SEARCH REAL-TIME
+            const searchInput = document.getElementById('teamSearchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    filterCards(query, currentCategory);
+                });
+            }
+        });
+
+        // 2. FILTER PILLS KATEGORI
+        function filterCategory(category, element) {
+            currentCategory = category;
+            
+            // Toggle active pill
+            const pills = document.querySelectorAll('#filterPills .pill');
+            pills.forEach(p => p.classList.remove('pill-active'));
+            element.classList.add('pill-active');
+
+            const query = document.getElementById('teamSearchInput').value.toLowerCase().trim();
+            filterCards(query, category);
+        }
+
+        // FUNGSI GABUNGAN FILTER SEARCH & KATEGORI
+        function filterCards(query, category) {
+            const cards = document.querySelectorAll('#teamGrid .team-profile-card');
+            
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const id = card.getAttribute('data-id');
+                const role = card.getAttribute('data-role');
+                const cardCat = card.getAttribute('data-category');
+
+                const matchesSearch = name.includes(query) || id.includes(query) || role.includes(query);
+                const matchesCategory = (category === 'all') || (cardCat === category);
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 3. POP-UP TAMBAH ANGGOTA
+        function openAddMemberModal() {
+            document.getElementById('addMemberModal').classList.add('active');
+        }
+        function closeAddMemberModal() {
+            document.getElementById('addMemberModal').classList.remove('active');
+        }
+
+        // 4. POP-UP EKSPOR DATA
+        function openExportModal() {
+            document.getElementById('exportModal').classList.add('active');
+        }
+        function closeExportModal() {
+            document.getElementById('exportModal').classList.remove('active');
+        }
+
+        // 5. POP-UP PROFIL "GO WILD"
+        function openProfileModal(key) {
+            const data = teamProfiles[key];
+            if (!data) return;
+
+            document.getElementById('modalBanner').style.backgroundColor = data.bgColor;
+            document.getElementById('modalAvatar').src = data.avatar;
+            document.getElementById('modalName').innerText = data.name;
+            document.getElementById('modalRole').innerText = data.role;
+            
+            const badge = document.getElementById('modalStatusBadge');
+            badge.innerText = data.status;
+            badge.style.backgroundColor = data.statusColor + '20'; // light background
+            badge.style.color = data.statusColor;
+
+            document.getElementById('modalID').innerText = data.id;
+            document.getElementById('modalDept').innerText = data.dept;
+            document.getElementById('modalEmail').innerText = data.email;
+            document.getElementById('modalExp').innerText = data.exp;
+            document.getElementById('modalBio').innerText = data.bio;
+            document.getElementById('modalTask').innerHTML = `<i class="fa-solid fa-list-check"></i> ${data.task}`;
+
+            // Render Skills
+            const skillsContainer = document.getElementById('modalSkills');
+            skillsContainer.innerHTML = '';
+            data.skills.forEach(skill => {
+                const span = document.createElement('span');
+                span.className = 'skill-badge';
+                span.innerText = skill;
+                skillsContainer.appendChild(span);
+            });
+
+            document.getElementById('profileModal').classList.add('active');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('active');
+        }
+    </script>
 </body>
 </html>

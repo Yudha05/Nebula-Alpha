@@ -6,6 +6,18 @@
     <title>Nebula - Pusat Bantuan</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .search-hidden {
+            display: none !important;
+        }
+        .clickable-item {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .clickable-item:hover {
+            background-color: #f1f5f9;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -36,7 +48,7 @@
                 <ul>
                     <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
                     <li class="active"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
-                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                    <li class="logout" id="openLogoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
         </aside>
@@ -51,7 +63,7 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari pengaturan spesifik...">
+                    <input type="text" id="searchInput" placeholder="Cari pertanyaan, panduan, atau informasi bantuan...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
@@ -73,7 +85,7 @@
                     <p>Temukan jawaban cepat, panduan sistem, atau hubungi tim teknis Nebula.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-headset"></i> Live Chat</button>
+                    <button class="btn-primary" id="btnLiveChat"><i class="fa-solid fa-headset"></i> Live Chat</button>
                 </div>
             </div>
 
@@ -87,7 +99,7 @@
                     </div>
                     
                     <div class="faq-container mt-10">
-                        <div class="faq-item">
+                        <div class="faq-item searchable-item">
                             <div class="faq-question">
                                 <h4>Bagaimana cara mereset sensor IoT yang offline?</h4>
                                 <i class="fa-solid fa-chevron-down"></i>
@@ -97,7 +109,7 @@
                             </div>
                         </div>
 
-                        <div class="faq-item">
+                        <div class="faq-item searchable-item">
                             <div class="faq-question">
                                 <h4>Cara mengekspor laporan Analitik bulanan?</h4>
                                 <i class="fa-solid fa-chevron-down"></i>
@@ -107,7 +119,7 @@
                             </div>
                         </div>
 
-                        <div class="faq-item">
+                        <div class="faq-item searchable-item">
                             <div class="faq-question">
                                 <h4>Bagaimana cara menambah anggota tim baru?</h4>
                                 <i class="fa-solid fa-chevron-down"></i>
@@ -124,7 +136,7 @@
                     <div class="card-header-flex">
                         <h3>Hubungi Tim Dukungan IT</h3>
                     </div>
-                    <form class="support-form mt-10">
+                    <form class="support-form mt-10" id="supportForm">
                         <div class="form-group">
                             <label>Kategori Masalah</label>
                             <select class="form-control">
@@ -138,21 +150,24 @@
                             <label>Deskripsi Detail</label>
                             <textarea class="form-control" rows="4" placeholder="Jelaskan masalah Anda secara detail..."></textarea>
                         </div>
-                        <button type="button" class="btn-primary full-width mt-10" style="justify-content: center;">Kirim Tiket Laporan</button>
+                        <button type="submit" class="btn-primary full-width mt-10" style="justify-content: center;">Kirim Tiket Laporan</button>
                     </form>
 
                     <div class="card-header-flex" style="margin-top: 30px;">
                         <h3>Buku Panduan</h3>
                     </div>
                     <div class="docs-list mt-10">
-                        <div class="doc-item">
-                            <i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 24px;"></i>
-                            <div>
-                                <h4>Manual Book Nebula V.2</h4>
-                                <p>2.4 MB - Diperbarui 12 Okt</p>
+                        <!-- Link ke Tab Baru Halaman Manual Book -->
+                        <a href="manual-book.html" target="_blank" style="text-decoration: none; color: inherit;">
+                            <div class="doc-item searchable-item clickable-item">
+                                <i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 24px;"></i>
+                                <div>
+                                    <h4>Manual Book Nebula</h4>
+                                    <p>2.4 MB - Diperbarui 12 Okt</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="doc-item">
+                        </a>
+                        <div class="doc-item searchable-item clickable-item" id="btnVideoTutorial">
                             <i class="fa-solid fa-video" style="color: #0284c7; font-size: 24px;"></i>
                             <div>
                                 <h4>Video Tutorial Onboarding</h4>
@@ -165,6 +180,7 @@
             </div>
         </main>
     </div>
+
     <!-- Modal Pop-up Logout -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
@@ -179,32 +195,95 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
     <script>
-        /*LOGIKA AKORDION FAQ (HALAMAN BANTUAN)*/
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => {
-                // Tutup FAQ lain yang sedang terbuka (opsional)
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                        otherItem.querySelector('.faq-answer').style.maxHeight = null;
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* 1. AKORDION FAQ */
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                            const otherAnswer = otherItem.querySelector('.faq-answer');
+                            if(otherAnswer) otherAnswer.style.maxHeight = null;
+                        }
+                    });
+
+                    item.classList.toggle('active');
+                    const answer = item.querySelector('.faq-answer');
+                    if (item.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    } else {
+                        answer.style.maxHeight = null;
                     }
                 });
-
-                // Toggle FAQ yang diklik
-                item.classList.toggle('active');
-                const answer = item.querySelector('.faq-answer');
-                
-                if (item.classList.contains('active')) {
-                    answer.style.maxHeight = answer.scrollHeight + "px"; // Membuka secara mulus
-                } else {
-                    answer.style.maxHeight = null; // Menutup secara mulus
-                }
             });
+
+            /* 2. PENCARIAN (SEARCH) REAL-TIME */
+            const searchInput = document.getElementById('searchInput');
+            const searchableItems = document.querySelectorAll('.searchable-item');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    searchableItems.forEach(item => {
+                        const text = item.innerText.toLowerCase();
+                        if (text.includes(query)) {
+                            item.classList.remove('search-hidden');
+                        } else {
+                            item.classList.add('search-hidden');
+                        }
+                    });
+                });
+            }
+
+            /* 3. LIVE CHAT POP-UP */
+            const btnLiveChat = document.getElementById('btnLiveChat');
+            if (btnLiveChat) {
+                btnLiveChat.addEventListener('click', () => {
+                    alert("belum bisa live chat");
+                });
+            }
+
+            /* 4. FORM SUPPORT SUBMIT POP-UP */
+            const supportForm = document.getElementById('supportForm');
+            if (supportForm) {
+                supportForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert("mohon maaf tidak terkirim kemana mana dikarenakan masih prototype");
+                });
+            }
+
+            /* 5. VIDEO TUTORIAL POP-UP */
+            const btnVideoTutorial = document.getElementById('btnVideoTutorial');
+            if (btnVideoTutorial) {
+                btnVideoTutorial.addEventListener('click', () => {
+                    alert("tidak ada video");
+                });
+            }
+
+            /* 6. LOGOUT MODAL */
+            const logoutModal = document.getElementById('logoutModal');
+            const openLogoutBtn = document.getElementById('openLogoutBtn');
+            const cancelLogout = document.getElementById('cancelLogout');
+            const confirmLogout = document.getElementById('confirmLogout');
+
+            if (openLogoutBtn && logoutModal) {
+                openLogoutBtn.addEventListener('click', () => logoutModal.classList.add('active'));
+            }
+            if (cancelLogout) {
+                cancelLogout.addEventListener('click', () => logoutModal.classList.remove('active'));
+            }
+            if (confirmLogout) {
+                confirmLogout.addEventListener('click', () => {
+                    alert('Anda telah keluar.');
+                    logoutModal.classList.remove('active');
+                });
+            }
         });
     </script>
 </body>

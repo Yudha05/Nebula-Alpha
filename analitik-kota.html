@@ -7,6 +7,45 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Style Tambahan untuk Modal Detail & Highlight Search */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .search-hidden {
+            display: none !important;
+        }
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .detail-table th, .detail-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .detail-table th {
+            background-color: #f8fafc;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -37,7 +76,7 @@
                 <ul>
                     <li onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-gear"></i> Pengaturan</li>
                     <li onclick="window.location.href='bantuan.html'"><i class="fa-regular fa-circle-question"></i> Bantuan</li>
-                    <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
+                    <li class="logout" id="openLogoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
         </aside>
@@ -52,7 +91,7 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari laporan data, metrik, atau sektor...">
+                    <input type="text" id="searchInput" placeholder="Cari laporan data, metrik, atau sektor...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
@@ -74,14 +113,14 @@
                     <p>Visualisasi tren lalu lintas, kualitas lingkungan, dan wawasan cerdas berbasis AI.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-download"></i> Unduh Laporan</button>
-                    <button class="btn-outline"><i class="fa-regular fa-calendar-days"></i> Filter Waktu</button>
+                    <button class="btn-primary" id="btnUnduhLaporan"><i class="fa-solid fa-download"></i> Unduh Laporan</button>
+                    <button class="btn-outline" id="btnFilterWaktu"><i class="fa-regular fa-calendar-days"></i> Filter Waktu</button>
                 </div>
             </div>
 
             <!-- Stats Grid untuk Analitik -->
             <div class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card searchable-item">
                     <div class="stat-header">
                         <h3>Indeks Kualitas Udara</h3>
                         <i class="fa-solid fa-wind"></i>
@@ -89,7 +128,7 @@
                     <h2>42</h2>
                     <p><i class="fa-solid fa-circle-check"></i> Status: Kategori Baik</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card searchable-item">
                     <div class="stat-header">
                         <h3>Efisiensi Energi Kota</h3>
                         <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
@@ -97,7 +136,7 @@
                     <h2>+14%</h2>
                     <p><i class="fa-solid fa-arrow-trend-up"></i> Penghematan bulan ini</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card searchable-item">
                     <div class="stat-header">
                         <h3>Kepadatan Lalin (Rata-rata)</h3>
                         <i class="fa-solid fa-car-side" style="color: #0284c7;"></i>
@@ -110,11 +149,11 @@
             <!-- Middle Sections (Bar Chart & Progress) -->
             <div class="content-grid-3 mt-20">
                 
-                <!-- Grafik Volume Kendaraan (Span 2 kolom) -->
-                <div class="card col-span-2">
+                <!-- Grafik Volume Kendaraan -->
+                <div class="card col-span-2 searchable-item">
                     <div class="card-header-flex">
                         <h3>Tren Volume Lalu Lintas (7 Hari Terakhir)</h3>
-                        <button class="btn-small" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);">Detail</button>
+                        <button class="btn-small" id="btnDetailLalin" style="background: transparent; color: var(--text-muted, #64748b); border: 1px solid var(--border-color, #e2e8f0); cursor: pointer;">Detail</button>
                     </div>
                     
                     <!-- Simulasi Bar Chart CSS -->
@@ -150,25 +189,23 @@
                     </div>
                 </div>
 
-                <!-- Distribusi Konsumsi Energi (Span 1 kolom) -->
-                <div class="card col-span-1">
+                <!-- Distribusi Konsumsi Energi -->
+                <div class="card col-span-1 searchable-item">
                     <div class="card-header-flex">
                         <h3>Konsumsi Listrik Sektor</h3>
                     </div>
                     
                     <div class="progress-list mt-10">
-                        <!-- Item 1 -->
                         <div class="progress-item">
                             <div class="progress-info">
                                 <span>Penerangan Jalan (PJU)</span>
                                 <span>45%</span>
                             </div>
                             <div class="progress-bg">
-                                <div class="progress-fill" style="width: 45%; background: var(--primary);"></div>
+                                <div class="progress-fill" style="width: 45%; background: var(--primary, #3b82f6);"></div>
                             </div>
                         </div>
                         
-                        <!-- Item 2 -->
                         <div class="progress-item">
                             <div class="progress-info">
                                 <span>Gedung Pemerintahan</span>
@@ -179,7 +216,6 @@
                             </div>
                         </div>
 
-                        <!-- Item 3 -->
                         <div class="progress-item">
                             <div class="progress-info">
                                 <span>Fasilitas Publik (Pompa Air, dll)</span>
@@ -190,7 +226,6 @@
                             </div>
                         </div>
 
-                        <!-- Item 4 -->
                         <div class="progress-item">
                             <div class="progress-info">
                                 <span>Lainnya</span>
@@ -206,7 +241,7 @@
 
             <!-- Bottom Section (Insights) -->
             <div class="content-grid-3 mt-20">
-                <div class="card col-span-3">
+                <div class="card col-span-3 searchable-item">
                     <div class="card-header-flex">
                         <h3>Rekomendasi & AI Insights</h3>
                     </div>
@@ -231,6 +266,39 @@
 
         </main>
     </div>
+
+    <!-- Modal Pop-up Detail Tren Lalu Lintas -->
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0;">Detail Volume Lalu Lintas</h3>
+                <i class="fa-solid fa-xmark" id="closeDetailModal" style="cursor: pointer; font-size: 1.2rem;"></i>
+            </div>
+            <p style="font-size: 0.9rem; color: #64748b;">Rincian persentase kepadatan lalu lintas harian minggu ini:</p>
+            <table class="detail-table">
+                <thead>
+                    <tr>
+                        <th>Hari</th>
+                        <th>Kepadatan</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Senin</td><td>60%</td><td>Sedang</td></tr>
+                    <tr><td>Selasa</td><td>75%</td><td>Padat</td></tr>
+                    <tr><td>Rabu</td><td>85%</td><td>Sangat Padat</td></tr>
+                    <tr><td>Kamis</td><td>95%</td><td>Puncak Kepadatan</td></tr>
+                    <tr><td>Jumat</td><td>50%</td><td>Lancar</td></tr>
+                    <tr><td>Sabtu</td><td>40%</td><td>Lancar</td></tr>
+                    <tr><td>Minggu</td><td>30%</td><td>Sangat Lancar</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 16px; text-align: right;">
+                <button class="btn-outline" id="btnCloseDetailModal">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Pop-up Logout -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
@@ -239,12 +307,92 @@
             </div>
             <h3>Konfirmasi Keluar</h3>
             <p>Apakah Anda yakin ingin mengakhiri sesi dan keluar dari Nebula?</p>
-            <div class="modal-actions">
+            <div class="modal-actions" style="margin-top: 15px; display: flex; gap: 10px; justify-content: flex-end;">
                 <button id="cancelLogout" class="btn-outline">Batal</button>
                 <button id="confirmLogout" class="btn-primary btn-danger">Ya, Keluar</button>
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Script JavaScript Internal / Bisa dipindah ke script.js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Pop-up Unduh Laporan
+            const btnUnduh = id('btnUnduhLaporan');
+            if (btnUnduh) {
+                btnUnduh.addEventListener('click', () => {
+                    alert("tidak ada data yang bisa di unduh");
+                });
+            }
+
+            // 2. Pop-up Filter Waktu
+            const btnFilter = id('btnFilterWaktu');
+            if (btnFilter) {
+                btnFilter.addEventListener('click', () => {
+                    alert("tidak bisa di filter");
+                });
+            }
+
+            // 3. Fungsi Search / Pencarian Real-time
+            const searchInput = id('searchInput');
+            const searchableItems = document.querySelectorAll('.searchable-item');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+
+                    searchableItems.forEach(item => {
+                        const text = item.innerText.toLowerCase();
+                        if (text.includes(query)) {
+                            item.classList.remove('search-hidden');
+                        } else {
+                            item.classList.add('search-hidden');
+                        }
+                    });
+                });
+            }
+
+            // 4. Detail Modal Pop-up
+            const btnDetailLalin = id('btnDetailLalin');
+            const detailModal = id('detailModal');
+            const closeDetailModal = id('closeDetailModal');
+            const btnCloseDetailModal = id('btnCloseDetailModal');
+
+            if (btnDetailLalin && detailModal) {
+                btnDetailLalin.addEventListener('click', () => {
+                    detailModal.classList.add('active');
+                });
+
+                const hideDetail = () => detailModal.classList.remove('active');
+                if (closeDetailModal) closeDetailModal.addEventListener('click', hideDetail);
+                if (btnCloseDetailModal) btnCloseDetailModal.addEventListener('click', hideDetail);
+            }
+
+            // 5. Logout Modal Handler
+            const logoutModal = id('logoutModal');
+            const openLogoutBtn = id('openLogoutBtn');
+            const cancelLogout = id('cancelLogout');
+            const confirmLogout = id('confirmLogout');
+
+            if (openLogoutBtn && logoutModal) {
+                openLogoutBtn.addEventListener('click', () => logoutModal.classList.add('active'));
+            }
+            if (cancelLogout) {
+                cancelLogout.addEventListener('click', () => logoutModal.classList.remove('active'));
+            }
+            if (confirmLogout) {
+                confirmLogout.addEventListener('click', () => {
+                    alert('Anda telah keluar.');
+                    logoutModal.classList.remove('active');
+                });
+            }
+
+            // Helper Function
+            function id(elementId) {
+                return document.getElementById(elementId);
+            }
+        });
+    </script>
 </body>
 </html>
