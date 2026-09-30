@@ -7,6 +7,82 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS STYLING POP-UP NOTIFIKASI SAVED --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            padding: 32px 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-icon-success {
+            font-size: 2.5rem;
+            color: #10B981; /* Warna hijau sukses */
+            margin-bottom: 12px;
+        }
+
+        .modal-card h3 {
+            font-size: 1.25rem;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .modal-card p {
+            color: #64748B;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .btn-modal-close {
+            background-color: #4F46E5;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-modal-close:hover {
+            background-color: #4338CA;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -58,10 +134,10 @@
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
                     <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
                     <div class="user-profile">
-                        <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
+                        <img id="topbarAvatar" src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
                         <div class="user-info">
-                            <p class="user-name">Admin Smart City</p>
-                            <p class="user-email">admin@nebula.gov</p>
+                            <p class="user-name" id="topbarName">Admin Smart City</p>
+                            <p class="user-email" id="topbarEmail">admin@nebula.gov</p>
                         </div>
                     </div>
                 </div>
@@ -74,7 +150,7 @@
                     <p>Kelola preferensi akun, keamanan, dan konfigurasi notifikasi platform Nebula.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
+                    <button class="btn-primary" id="saveSettingsBtn"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
                 </div>
             </div>
 
@@ -89,22 +165,24 @@
                     
                     <div class="profile-settings mt-10">
                         <div class="profile-pic-section">
-                            <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=e0f2fe&color=0284c7" alt="Profile">
+                            <img id="profileImagePreview" src="https://ui-avatars.com/api/?name=Admin+Nebula&background=e0f2fe&color=0284c7" alt="Profile">
                             <div>
-                                <button class="btn-outline btn-small"><i class="fa-solid fa-camera"></i> Ubah Foto</button>
+                                <!-- Hidden File Input -->
+                                <input type="file" id="avatarFileInput" accept="image/png, image/jpeg, image/gif" style="display: none;">
+                                <button type="button" class="btn-outline btn-small" id="uploadAvatarBtn"><i class="fa-solid fa-camera"></i> Ubah Foto</button>
                                 <p class="help-text">JPG, GIF atau PNG. Maks 2MB.</p>
                             </div>
                         </div>
 
-                        <form class="settings-form">
+                        <form class="settings-form" id="profileForm" onsubmit="return false;">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Nama Lengkap</label>
-                                    <input type="text" value="Admin Smart City" class="form-control">
+                                    <input type="text" id="inputName" value="Admin Smart City" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat Email</label>
-                                    <input type="email" value="admin@nebula.gov" class="form-control">
+                                    <input type="email" id="inputEmail" value="admin@nebula.gov" class="form-control">
                                 </div>
                             </div>
                             
@@ -217,6 +295,19 @@
             </div>
         </main>
     </div>
+
+    <!-- POP-UP MODAL SIMPAN PERUBAHAN -->
+    <div class="modal-overlay" id="saveSuccessModal">
+        <div class="modal-card">
+            <div class="modal-icon-success">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3>Perubahan Disimpan</h3>
+            <p>Pengaturan telah diperbarui untuk halaman ini. Karena ini adalah <strong>prototype</strong>, perubahan tidak akan tersimpan secara permanen. Perubahan hanya di halaman ini saja</p>
+            <button class="btn-modal-close" id="closeSaveModalBtn">Mengerti</button>
+        </div>
+    </div>
+
     <!-- Modal Pop-up Logout -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
@@ -231,6 +322,91 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
+
+    <!-- JAVASCRIPT LOKAL HALAMAN PENGATURAN -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const uploadAvatarBtn = document.getElementById('uploadAvatarBtn');
+            const avatarFileInput = document.getElementById('avatarFileInput');
+            const profileImagePreview = document.getElementById('profileImagePreview');
+            const topbarAvatar = document.getElementById('topbarAvatar');
+
+            const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+            const saveSuccessModal = document.getElementById('saveSuccessModal');
+            const closeSaveModalBtn = document.getElementById('closeSaveModalBtn');
+
+            const inputName = document.getElementById('inputName');
+            const inputEmail = document.getElementById('inputEmail');
+            const topbarName = document.getElementById('topbarName');
+            const topbarEmail = document.getElementById('topbarEmail');
+
+            let newAvatarData = null;
+
+            // 1. Trigger File Upload ketika tombol 'Ubah Foto' diklik
+            if (uploadAvatarBtn && avatarFileInput) {
+                uploadAvatarBtn.addEventListener('click', () => {
+                    avatarFileInput.click();
+                });
+            }
+
+            // 2. Baca file gambar yang di-upload
+            if (avatarFileInput) {
+                avatarFileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (file.size > 2 * 1024 * 1024) {
+                            alert("Ukuran file terlalu besar! Maksimal 2MB.");
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function (evt) {
+                            newAvatarData = evt.target.result;
+                            profileImagePreview.src = newAvatarData; // Pratinjau langsung di profil
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // 3. Tangani tombol 'Simpan Perubahan'
+            if (saveSettingsBtn) {
+                saveSettingsBtn.addEventListener('click', () => {
+                    // Update tampilan Topbar secara langsung di halaman ini
+                    if (inputName && topbarName) {
+                        topbarName.textContent = inputName.value || "Admin Smart City";
+                    }
+                    if (inputEmail && topbarEmail) {
+                        topbarEmail.textContent = inputEmail.value || "admin@nebula.gov";
+                    }
+                    if (newAvatarData && topbarAvatar) {
+                        topbarAvatar.src = newAvatarData;
+                    }
+
+                    // Tampilkan Pop-up Notifikasi Prototype
+                    if (saveSuccessModal) {
+                        saveSuccessModal.classList.add('active');
+                    }
+                });
+            }
+
+            // 4. Tutup Modal Pop-up Simpan
+            if (closeSaveModalBtn && saveSuccessModal) {
+                closeSaveModalBtn.addEventListener('click', () => {
+                    saveSuccessModal.classList.remove('active');
+                });
+            }
+
+            if (saveSuccessModal) {
+                saveSuccessModal.addEventListener('click', (e) => {
+                    if (e.target === saveSuccessModal) {
+                        saveSuccessModal.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

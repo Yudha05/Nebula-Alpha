@@ -7,6 +7,256 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- TOAST POP-UP KANAN BAWAH (Registrasi Sensor) --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #00f2fe;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* --- POP-UP DETAIL SINGLE KANAN BAWAH (Saat Sensor Diklik) --- */
+        .sensor-detail-popup {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 340px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            z-index: 999;
+            transform: translateY(120%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sensor-detail-popup.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .popup-header h4 {
+            font-size: 1rem;
+            color: #0f172a;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .popup-close-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .popup-close-btn:hover {
+            color: #0f172a;
+        }
+
+        .popup-body {
+            font-size: 0.88rem;
+            color: #475569;
+        }
+
+        .popup-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .popup-info-label {
+            color: #64748b;
+        }
+
+        .popup-info-value {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .sensor-item {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .sensor-item:hover {
+            background-color: #f8fafc;
+        }
+
+        /* --- MODAL OVERLAY UMUM --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- MODAL WARNING TENGAH (Pindah Jaringan) --- */
+        .modal-warning-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-warning-box,
+        .modal-overlay.active .modal-grid-box {
+            transform: scale(1);
+        }
+
+        .warning-icon {
+            width: 60px;
+            height: 60px;
+            background: #fef3c7;
+            color: #f59e0b;
+            font-size: 1.8rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        /* --- MODAL BOX POP-UP LIHAT SEMUA SENSOR (4 SENSOR DALAM 1 BOX) --- */
+        .modal-grid-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            width: 92%;
+            max-width: 700px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .grid-header h3 {
+            font-size: 1.2rem;
+            color: #0f172a;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Layout Grid 2x2 untuk 4 Posisi */
+        .sensors-grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .grid-card-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .grid-card-item:hover {
+            border-color: #cbd5e1;
+        }
+
+        .grid-card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grid-card-desc {
+            font-size: 0.82rem;
+            color: #64748b;
+            line-height: 1.4;
+            margin-top: 6px;
+        }
+
+        .grid-card-meta {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #475569;
+            background: #ffffff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            border: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 600px) {
+            .sensors-grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -52,7 +302,7 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari ID sensor, lokasi, tipe...">
+                    <input type="text" id="sensorSearchInput" placeholder="Cari ID sensor, lokasi, tipe...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
@@ -74,8 +324,12 @@
                     <p>Pantau status, lokasi, dan metrik real-time dari seluruh sensor pintar di kota.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Registrasi Sensor</button>
-                    <button class="btn-outline"><i class="fa-solid fa-rotate-right"></i> Pindai Jaringan</button>
+                    <button class="btn-primary" onclick="showToast('Menampilkan form Registrasi Sensor baru...')">
+                        <i class="fa-solid fa-plus"></i> Registrasi Sensor
+                    </button>
+                    <button class="btn-outline" onclick="showNetworkWarning()">
+                        <i class="fa-solid fa-rotate-right"></i> Pindai Jaringan
+                    </button>
                 </div>
             </div>
 
@@ -122,12 +376,18 @@
                 <div class="card col-span-2">
                     <div class="card-header-flex">
                         <h3>Daftar Sensor & Perangkat</h3>
-                        <button class="btn-small">Lihat Semua</button>
+                        <button class="btn-small" onclick="openAllSensorsModal()">Lihat Semua</button>
                     </div>
                     
-                    <ul class="sensor-list">
+                    <ul class="sensor-list" id="sensorList">
                         <!-- Sensor 1 -->
-                        <li class="sensor-item">
+                        <li class="sensor-item" 
+                            data-name="Air Quality Monitor (AQ-01)" 
+                            data-id="AQ-01" 
+                            data-location="Taman Kota" 
+                            data-status="Aktif" 
+                            data-updated="2 mnt lalu"
+                            data-value="AQI 42 (Baik)">
                             <div class="sensor-info">
                                 <div class="sensor-icon bg-blue"><i class="fa-solid fa-wind"></i></div>
                                 <div>
@@ -141,7 +401,13 @@
                         </li>
 
                         <!-- Sensor 2 -->
-                        <li class="sensor-item">
+                        <li class="sensor-item" 
+                            data-name="Smart Traffic AI (TL-44)" 
+                            data-id="TL-44" 
+                            data-location="Perempatan Sudirman" 
+                            data-status="Aktif" 
+                            data-updated="5 dtk lalu"
+                            data-value="Padat Merayap">
                             <div class="sensor-info">
                                 <div class="sensor-icon bg-yellow"><i class="fa-solid fa-traffic-light"></i></div>
                                 <div>
@@ -155,7 +421,13 @@
                         </li>
 
                         <!-- Sensor 3 -->
-                        <li class="sensor-item">
+                        <li class="sensor-item" 
+                            data-name="Waste Bin Sensor (WB-12)" 
+                            data-id="WB-12" 
+                            data-location="Pasar Induk" 
+                            data-status="Offline" 
+                            data-updated="5 jam lalu"
+                            data-value="Tidak merespon">
                             <div class="sensor-info">
                                 <div class="sensor-icon bg-red"><i class="fa-solid fa-trash-can"></i></div>
                                 <div>
@@ -169,7 +441,13 @@
                         </li>
 
                         <!-- Sensor 4 -->
-                        <li class="sensor-item">
+                        <li class="sensor-item" 
+                            data-name="Water Level Detector (FL-05)" 
+                            data-id="FL-05" 
+                            data-location="Pintu Air Manggarai" 
+                            data-status="Maintenance" 
+                            data-updated="1 mnt lalu"
+                            data-value="Siaga 3 (Ketinggian 120cm)">
                             <div class="sensor-info">
                                 <div class="sensor-icon bg-blue"><i class="fa-solid fa-water"></i></div>
                                 <div>
@@ -215,20 +493,192 @@
             </div>
         </main>
     </div>
-    <!-- Modal Pop-up Logout -->
-    <div id="logoutModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-icon warning-icon">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+    <!-- TOAST POP-UP KANAN BAWAH (Registrasi Sensor) -->
+    <div class="toast" id="toastNotification">
+        <i class="fa-solid fa-circle-info" style="color: #00f2fe;"></i>
+        <span id="toastMessage">Pesan Toast</span>
+    </div>
+
+    <!-- MODAL WARNING TENGAH (Pindai Jaringan) -->
+    <div class="modal-overlay" id="networkWarningModal">
+        <div class="modal-warning-box">
+            <div class="warning-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3>Konfirmasi Keluar</h3>
-            <p>Apakah Anda yakin ingin mengakhiri sesi dan keluar dari Nebula?</p>
-            <div class="modal-actions">
-                <button id="cancelLogout" class="btn-outline">Batal</button>
-                <button id="confirmLogout" class="btn-primary btn-danger">Ya, Keluar</button>
+            <h3 style="margin-bottom: 8px; color: #0f172a;">Peringatan Jaringan</h3>
+            <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 20px;">Tidak bisa ganti jaringan.</p>
+            <button class="btn-primary" style="width: 100%;" onclick="closeNetworkWarning()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- POP-UP DETAIL SENSOR SINGLE (Kanan Bawah Saat Item Ditingkas Klik) -->
+    <div class="sensor-detail-popup" id="sensorDetailPopup">
+        <div class="popup-header">
+            <h4><i class="fa-solid fa-circle-info" style="color: #4f46e5;"></i> Detail Sensor</h4>
+            <button class="popup-close-btn" id="closePopupBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-info-row">
+                <span class="popup-info-label">Nama Device:</span>
+                <span class="popup-info-value" id="popName">-</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-info-label">ID Sensor:</span>
+                <span class="popup-info-value" id="popId">-</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-info-label">Lokasi:</span>
+                <span class="popup-info-value" id="popLocation">-</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-info-label">Status:</span>
+                <span class="popup-info-value" id="popStatus">-</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-info-label">Pembacaan:</span>
+                <span class="popup-info-value" id="popValue">-</span>
+            </div>
+            <div class="popup-info-row">
+                <span class="popup-info-label">Update Terakhir:</span>
+                <span class="popup-info-value" id="popUpdated">-</span>
             </div>
         </div>
     </div>
+
+    <!-- MODAL 4 SENSOR DALAM 1 BOX (Tombol "Lihat Semua") -->
+    <div class="modal-overlay" id="allSensorsModal">
+        <div class="modal-grid-box">
+            <div class="grid-header">
+                <h3><i class="fa-solid fa-layer-group" style="color: #4f46e5;"></i> Ringkasan Seluruh Sensor</h3>
+                <button class="popup-close-btn" onclick="closeAllSensorsModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="sensors-grid-4">
+                <!-- KIRI ATAS: SENSOR KEDUA -->
+                <div class="grid-card-item">
+                    <div class="grid-card-title">
+                        <i class="fa-solid fa-traffic-light" style="color: #eab308;"></i> Smart Traffic AI
+                    </div>
+                    <span class="grid-card-meta">ID: TL-44 | Perempatan Sudirman</span>
+                    <p class="grid-card-desc">
+                        Sistem pemantau kepadatan lalu lintas berbasis AI untuk mengatur durasi lampu hijau secara otomatis di persimpangan utama.
+                    </p>
+                </div>
+
+                <!-- KANAN ATAS: SENSOR PERTAMA -->
+                <div class="grid-card-item">
+                    <div class="grid-card-title">
+                        <i class="fa-solid fa-wind" style="color: #3b82f6;"></i> Air Quality Monitor
+                    </div>
+                    <span class="grid-card-meta">ID: AQ-01 | Taman Kota</span>
+                    <p class="grid-card-desc">
+                        Sensor deteksi polusi udara real-time yang mengukur konsentrasi PM2.5, CO2, serta tingkat kelembapan udara perkotaan.
+                    </p>
+                </div>
+
+                <!-- KIRI BAWAH: SENSOR KETIGA -->
+                <div class="grid-card-item">
+                    <div class="grid-card-title">
+                        <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> Waste Bin Sensor
+                    </div>
+                    <span class="grid-card-meta">ID: WB-12 | Pasar Induk</span>
+                    <p class="grid-card-desc">
+                        Sensor ultrasonik pengukur tingkat kepenuhan bak sampah guna mengoptimalkan rute truk pengangkut sampah kota.
+                    </p>
+                </div>
+
+                <!-- KANAN BAWAH: SENSOR KEEMPAT -->
+                <div class="grid-card-item">
+                    <div class="grid-card-title">
+                        <i class="fa-solid fa-water" style="color: #06b6d4;"></i> Water Level Detector
+                    </div>
+                    <span class="grid-card-meta">ID: FL-05 | Pintu Air Manggarai</span>
+                    <p class="grid-card-desc">
+                        Perangkat pemantau ketinggian debit air sungai secara berkala sebagai sistem peringatan dini potensi banjir kota.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('sensorSearchInput');
+            const sensorItems = document.querySelectorAll('.sensor-item');
+            const popup = document.getElementById('sensorDetailPopup');
+            const closePopupBtn = document.getElementById('closePopupBtn');
+
+            const popName = document.getElementById('popName');
+            const popId = document.getElementById('popId');
+            const popLocation = document.getElementById('popLocation');
+            const popStatus = document.getElementById('popStatus');
+            const popValue = document.getElementById('popValue');
+            const popUpdated = document.getElementById('popUpdated');
+
+            // 1. SEARCHING REAL-TIME
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    sensorItems.forEach(item => {
+                        const textContent = item.textContent.toLowerCase();
+                        item.style.display = textContent.includes(query) ? 'flex' : 'none';
+                    });
+                });
+            }
+
+            // 2. KLIK ITEM LIST SENSOR -> SHOW POPUP DETAIL KANAN BAWAH
+            sensorItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    popName.textContent = item.getAttribute('data-name');
+                    popId.textContent = item.getAttribute('data-id');
+                    popLocation.textContent = item.getAttribute('data-location');
+                    popStatus.textContent = item.getAttribute('data-status');
+                    popValue.textContent = item.getAttribute('data-value');
+                    popUpdated.textContent = item.getAttribute('data-updated');
+
+                    popup.classList.add('active');
+                });
+            });
+
+            // 3. TUTUP POPUP SINGLE KANAN BAWAH
+            if (closePopupBtn) {
+                closePopupBtn.addEventListener('click', () => {
+                    popup.classList.remove('active');
+                });
+            }
+        });
+
+        // FUNCTION 1: Toast Registrasi Sensor (Kanan Bawah)
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // FUNCTION 2: Warning Modal Pindai Jaringan (Tengah)
+        function showNetworkWarning() {
+            document.getElementById('networkWarningModal').classList.add('active');
+        }
+
+        function closeNetworkWarning() {
+            document.getElementById('networkWarningModal').classList.remove('active');
+        }
+
+        // FUNCTION 3: Modal Grid 4 Sensor dalam 1 Box (Lihat Semua)
+        function openAllSensorsModal() {
+            document.getElementById('allSensorsModal').classList.add('active');
+        }
+
+        function closeAllSensorsModal() {
+            document.getElementById('allSensorsModal').classList.remove('active');
+        }
+    </script>
 </body>
 </html>

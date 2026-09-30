@@ -8,6 +8,35 @@
     <link rel="shortcut icon" href="/Vibrant 3D Nebula Icon with Colorful Gases.jpg" type="image/x-icon">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Tambahan Khusus Toast Pop-up -->
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #00f2fe;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -20,7 +49,7 @@
                 <i class="fa-solid fa-compact-disc"></i>
                 <h2>Nebula</h2>
             </div>
-            <!-- Sidebar -->
+            <!-- Sidebar Menu -->
             <div class="menu-section">
                 <p class="menu-title">MENU</p>
                 <ul>
@@ -40,13 +69,6 @@
                     <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
-
-            <!-- <div class="sidebar-card">
-                <div class="card-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-                <h4>Unduh Aplikasi Nebula</h4>
-                <p>Pantau kota di mana saja.</p>
-                <button class="btn-download">Unduh</button>
-            </div> -->
         </aside>
 
         <!-- Main Content -->
@@ -58,7 +80,8 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari data sensor, tugas...">
+                    <!-- Input Search dengan ID searchInput -->
+                    <input type="text" id="searchInput" placeholder="Cari data sensor, tugas...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
@@ -80,8 +103,8 @@
                     <p>Pantau, analisis, dan kelola infrastruktur pintar Anda dengan mudah.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Proyek</button>
-                    <button class="btn-outline">Impor Data</button>
+                    <button class="btn-primary" onclick="showToast('Menampilkan form tambah proyek baru...')"><i class="fa-solid fa-plus"></i> Tambah Proyek</button>
+                    <button class="btn-outline" onclick="showToast('Memproses impor data...')">Impor Data</button>
                 </div>
             </div>
 
@@ -144,7 +167,10 @@
                     <div class="reminder-content">
                         <h4>Rapat Integrasi CCTV AI</h4>
                         <p>Waktu: 14:00 - 16:00 WIB</p>
-                        <button class="btn-primary full-width mt-10"><i class="fa-solid fa-video"></i> Mulai Rapat</button>
+                        <!-- Tombol dengan fungsi pemicu pop-up -->
+                        <button class="btn-primary full-width mt-10" onclick="showToast('Menghubungkan ke ruang rapat CCTV AI...')">
+                            <i class="fa-solid fa-video"></i> Mulai Rapat
+                        </button>
                     </div>
                 </div>
 
@@ -152,7 +178,7 @@
                 <div class="card col-span-1">
                     <div class="card-header-flex">
                         <h3>Daftar Proyek</h3>
-                        <button class="btn-small">+ Baru</button>
+                        <button class="btn-small" onclick="showToast('Membuka menu proyek baru...')">+ Baru</button>
                     </div>
                     <ul class="project-list">
                         <li>
@@ -179,7 +205,7 @@
                 <div class="card col-span-1">
                     <div class="card-header-flex">
                         <h3>Kolaborasi Tim</h3>
-                        <button class="btn-small">+ Tambah</button>
+                        <button class="btn-small" onclick="showToast('Membuka dialog tambah anggota...')">+ Tambah</button>
                     </div>
                     <ul class="team-list">
                         <li>
@@ -215,13 +241,14 @@
                     <h3>Uptime Sistem Pusat</h3>
                     <div class="timer" id="systemTimer">00:00:00</div>
                     <div class="tracker-controls">
-                        <button><i class="fa-solid fa-pause"></i></button>
-                        <button class="stop"><i class="fa-solid fa-stop"></i></button>
+                        <!-- Tombol Pause / Play -->
+                        <button id="pauseBtn" onclick="toggleTimer()"><i class="fa-solid fa-pause"></i></button>
+                        <!-- Tombol Reset / Stop -->
+                        <button class="stop" onclick="resetTimer()"><i class="fa-solid fa-stop"></i></button>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
+                
+
     <!-- Modal Pop-up Logout -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
@@ -236,13 +263,62 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast Pop-up Notification -->
+    <div id="toastNotification" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastText">Pesan pemberitahuan</span>
+    </div>
+
     <script src="script.js"></script>
     <script>
-        // Fungsi sederhana untuk menjalankan Time Tracker pada dashboard
+        // 1. Fungsi Toast Notification (Pop-up melayang)
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastText = document.getElementById('toastText');
+
+            toastText.textContent = message;
+            toast.classList.add('show');
+
+            // Sembunyikan otomatis setelah 3 detik
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 2. Fungsi Search Filter Real-Time
         document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById('searchInput');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const filterValue = e.target.value.toLowerCase().trim();
+
+                    // Filter Daftar Proyek
+                    const projectItems = document.querySelectorAll('.project-list li');
+                    projectItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        item.style.display = text.includes(filterValue) ? "" : "none";
+                    });
+
+                    // Filter Kolaborasi Tim
+                    const teamItems = document.querySelectorAll('.team-list li');
+                    teamItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        item.style.display = text.includes(filterValue) ? "" : "none";
+                    });
+
+                    // Filter Kartu Statistik
+                    const statCards = document.querySelectorAll('.stat-card');
+                    statCards.forEach(card => {
+                        const text = card.textContent.toLowerCase();
+                        card.style.display = text.includes(filterValue) ? "" : "none";
+                    });
+                });
+            }
+
+            // 3. Fungsi Time Tracker Uptime Sistem
             const timerDisplay = document.getElementById('systemTimer');
-            
-            // Setel waktu dummy (misal sistem sudah jalan 1 jam, 24 menit, 8 detik)
             let hours = 1;
             let minutes = 24;
             let seconds = 8;
@@ -262,11 +338,12 @@
                     }
                 }
                 
-                timerDisplay.textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+                if (timerDisplay) {
+                    timerDisplay.textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+                }
             }
 
-            // Perbarui timer setiap 1 detik
-            const timerInterval = setInterval(updateTimer, 1000);
+            setInterval(updateTimer, 1000);
         });
     </script>
 </body>

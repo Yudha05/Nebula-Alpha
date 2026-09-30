@@ -7,6 +7,193 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- TOAST POP-UP KECIL KANAN BAWAH (Tambah Jadwal) --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #00f2fe;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* --- MODAL OVERLAY UMUM --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- MODAL BOX TENGAH --- */
+        .modal-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box,
+        .modal-overlay.active .modal-calendar-box {
+            transform: scale(1);
+        }
+
+        .modal-icon-apology {
+            width: 64px;
+            height: 64px;
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        /* --- POP-UP TEMPORARY 2 DETIK (Bulan Ini) --- */
+        .toast-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: #0f172a;
+            color: #ffffff;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .toast-center.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* --- MODAL KALENDER PENUH (BISA SCROLL) --- */
+        .modal-calendar-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            width: 92%;
+            max-width: 720px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+        }
+
+        .calendar-header h3 {
+            font-size: 1.25rem;
+            color: #0f172a;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .popup-close-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .popup-close-btn:hover {
+            color: #0f172a;
+        }
+
+        .calendar-body-scroll {
+            overflow-y: auto;
+            padding-right: 8px;
+            flex-grow: 1;
+        }
+
+        /* Styling scrollbar internal modal */
+        .calendar-body-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .calendar-body-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .user-notes-section {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px dashed #cbd5e1;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .user-notes-section h4 {
+            margin: 0 0 8px 0;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -52,7 +239,7 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari acara, rapat, atau jadwal pemeliharaan...">
+                    <input type="text" id="scheduleSearchInput" placeholder="Cari acara, rapat, atau jadwal pemeliharaan...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
@@ -74,8 +261,12 @@
                     <p>Kelola agenda kota, pemeliharaan fasilitas, dan acara masyarakat dalam satu portal terpusat.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary"><i class="fa-solid fa-calendar-plus"></i> Tambah Jadwal</button>
-                    <button class="btn-outline"><i class="fa-solid fa-filter"></i> Filter</button>
+                    <button class="btn-primary" onclick="showAddScheduleToast()">
+                        <i class="fa-solid fa-calendar-plus"></i> Tambah Jadwal
+                    </button>
+                    <button class="btn-outline" onclick="openFilterModal()">
+                        <i class="fa-solid fa-filter"></i> Filter
+                    </button>
                 </div>
             </div>
 
@@ -116,11 +307,11 @@
                         <h3>Agenda Mendatang</h3>
                         <div class="view-options">
                             <button class="btn-small">Minggu Ini</button>
-                            <button class="btn-small" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);">Bulan Ini</button>
+                            <button class="btn-small" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);" onclick="showNoThisMonthToast()">Bulan Ini</button>
                         </div>
                     </div>
                     
-                    <ul class="schedule-list">
+                    <ul class="schedule-list" id="upcomingScheduleList">
                         <!-- Agenda 1 -->
                         <li class="schedule-item">
                             <div class="date-badge">
@@ -168,9 +359,9 @@
                             </div>
                             <span class="tag tag-gov">Rapat Internal</span>
                         </li>
-                        
-                         <!-- Agenda 4 -->
-                         <li class="schedule-item">
+
+                        <!-- Agenda 4 -->
+                        <li class="schedule-item">
                             <div class="date-badge">
                                 <span class="month">NOV</span>
                                 <span class="day">25</span>
@@ -193,7 +384,7 @@
                         <h3>Jadwal Hari Ini</h3>
                     </div>
                     
-                    <div class="timeline">
+                    <div class="timeline" id="todayTimeline">
                         <div class="timeline-item">
                             <div class="timeline-time">09:00 WIB</div>
                             <div class="timeline-content">
@@ -224,12 +415,130 @@
                         </div>
                     </div>
                     
-                    <button class="btn-outline full-width mt-20">Lihat Kalender Penuh</button>
+                    <button class="btn-outline full-width mt-20" onclick="openFullCalendarModal()">Lihat Kalender Penuh</button>
                 </div>
 
             </div>
         </main>
     </div>
+
+    <!-- TOAST POP-UP KANAN BAWAH (Tambah Jadwal) -->
+    <div class="toast" id="addScheduleToast">
+        <i class="fa-solid fa-circle-check" style="color: #00f2fe;"></i>
+        <span>Penambahan Jadual baru</span>
+    </div>
+
+    <!-- MODAL POP-UP FILTER (Tangan Maaf) -->
+    <div class="modal-overlay" id="filterModal">
+        <div class="modal-box">
+            <div class="modal-icon-apology">
+                <i class="fa-solid fa-hands-praying"></i>
+            </div>
+            <h3 style="margin-bottom: 8px; color: #0f172a;">Pemberitahuan</h3>
+            <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 24px;">Mohon maaf belum bisa di pakai</p>
+            <button class="btn-primary" style="width: 100%;" onclick="closeFilterModal()">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- POP-UP MID-SCREEN 2 DETIK (Bulan Ini) -->
+    <div class="toast-center" id="noThisMonthToast">
+        <i class="fa-solid fa-circle-info" style="color: #f59e0b;"></i>
+        <span>tidak ada bulan ini</span>
+    </div>
+
+    <!-- MODAL POP-UP LIHAT KALENDER PENUH (Bisa Scroll + Slot Penjelasan) -->
+    <div class="modal-overlay" id="fullCalendarModal">
+        <div class="modal-calendar-box">
+            <div class="calendar-header">
+                <h3><i class="fa-regular fa-calendar-days" style="color: #4f46e5;"></i> Seluruh Agenda Mendatang</h3>
+                <button class="popup-close-btn" onclick="closeFullCalendarModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="calendar-body-scroll">
+                <!-- Daftar Seluruh Agenda Gabungan -->
+                <ul class="schedule-list">
+                    <li class="schedule-item">
+                        <div class="date-badge">
+                            <span class="month">NOV</span>
+                            <span class="day">18</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>Festival UMKM Digital Kota</h4>
+                            <p><span><i class="fa-regular fa-clock"></i> 08:00 - 17:00 WIB</span> | <span><i class="fa-solid fa-location-dot"></i> Alun-Alun Utama</span></p>
+                        </div>
+                        <span class="tag tag-public">Acara Publik</span>
+                    </li>
+
+                    <li class="schedule-item">
+                        <div class="date-badge">
+                            <span class="month">NOV</span>
+                            <span class="day">20</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>Pemeliharaan Server Smart Traffic</h4>
+                            <p><span><i class="fa-regular fa-clock"></i> 01:00 - 04:00 WIB</span> | <span><i class="fa-solid fa-server"></i> Pusat Data Center Nebula</span></p>
+                        </div>
+                        <span class="tag tag-maintenance">Pemeliharaan</span>
+                    </li>
+
+                    <li class="schedule-item">
+                        <div class="date-badge">
+                            <span class="month">NOV</span>
+                            <span class="day">22</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>Rapat Evaluasi Anggaran Q4</h4>
+                            <p><span><i class="fa-regular fa-clock"></i> 10:00 - 12:30 WIB</span> | <span><i class="fa-solid fa-building"></i> Balai Kota, Ruang A1</span></p>
+                        </div>
+                        <span class="tag tag-gov">Rapat Internal</span>
+                    </li>
+
+                    <li class="schedule-item">
+                        <div class="date-badge">
+                            <span class="month">NOV</span>
+                            <span class="day">25</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>Pembersihan Gorong-gorong (Mitigasi Banjir)</h4>
+                            <p><span><i class="fa-regular fa-clock"></i> 07:00 - 15:00 WIB</span> | <span><i class="fa-solid fa-map-location-dot"></i> Sektor Utara & Timur</span></p>
+                        </div>
+                        <span class="tag tag-maintenance">Pemeliharaan</span>
+                    </li>
+
+                    <li class="schedule-item">
+                        <div class="date-badge">
+                            <span class="month">DES</span>
+                            <span class="day">01</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>Peluncuran Layanan Transportasi Listrik</h4>
+                            <p><span><i class="fa-regular fa-clock"></i> 09:00 - 11:30 WIB</span> | <span><i class="fa-solid fa-bus"></i> Terminal Terpadu</span></p>
+                        </div>
+                        <span class="tag tag-public">Acara Publik</span>
+                    </li>
+
+                    <li class="schedule-item">
+                        <div class="date-badge">
+                            <span class="month">DES</span>
+                            <span class="day">05</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>Audit Keamanan Siber Tahunan</h4>
+                            <p><span><i class="fa-regular fa-clock"></i> 08:00 - 16:00 WIB</span> | <span><i class="fa-solid fa-shield-halved"></i> Ruang IT Cyber Security</span></p>
+                        </div>
+                        <span class="tag tag-gov">Rapat Internal</span>
+                    </li>
+                </ul>
+
+                <!-- AREA PENJELASAN UNTUK DIISI USER -->
+                <div class="user-notes-section">
+                    <h4>Ini hanya contoh bukan artinya betulan</h4>
+                    <!-- Silakan isi penjelasan Anda di sini nanti -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Pop-up Logout -->
     <div id="logoutModal" class="modal-overlay">
         <div class="modal-content">
@@ -244,6 +553,70 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. PENCARIAN LIVE SEARCH
+            const searchInput = document.getElementById('scheduleSearchInput');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+
+                    // Filter Agenda Mendatang
+                    const scheduleItems = document.querySelectorAll('#upcomingScheduleList .schedule-item');
+                    scheduleItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        item.style.display = text.includes(query) ? 'flex' : 'none';
+                    });
+
+                    // Filter Timeline Hari Ini
+                    const timelineItems = document.querySelectorAll('#todayTimeline .timeline-item');
+                    timelineItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        item.style.display = text.includes(query) ? 'flex' : 'none';
+                    });
+                });
+            }
+        });
+
+        // 2. TOAST "Tambah Jadwal"
+        function showAddScheduleToast() {
+            const toast = document.getElementById('addScheduleToast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 3. MODAL "Filter" (Tangan Maaf)
+        function openFilterModal() {
+            document.getElementById('filterModal').classList.add('active');
+        }
+
+        function closeFilterModal() {
+            document.getElementById('filterModal').classList.remove('active');
+        }
+
+        // 4. POP-UP 2 DETIK "Bulan Ini"
+        function showNoThisMonthToast() {
+            const toast = document.getElementById('noThisMonthToast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 5. MODAL "Lihat Kalender Penuh"
+        function openFullCalendarModal() {
+            document.getElementById('fullCalendarModal').classList.add('active');
+        }
+
+        function closeFullCalendarModal() {
+            document.getElementById('fullCalendarModal').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
