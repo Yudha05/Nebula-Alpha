@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula - Login Smart City</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fa-solid fa-compact-disc"></i>
+            <h2>Nebula</h2>
+            <p>Portal Manajemen Smart City</p>
+        </div>
+        
+        <!-- Form mengarah kembali ke halaman utama dashboard -->
+        <form action="index.html" class="login-form">
+            <div class="form-group">
+                <label for="email">Alamat Email</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input type="email" id="email" placeholder="admin@nebula.gov" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Kata Sandi</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" checked> Ingat sesi saya
+                </label>
+                <a href="#" class="forgot-password">Lupa sandi?</a>
+            </div>
+            
+            <button type="submit" class="btn-primary btn-block">Masuk ke Dashboard</button>
+        </form>
+    </div>
+</body>
+</html>
