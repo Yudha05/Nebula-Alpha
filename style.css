@@ -2137,6 +2137,17 @@ img, svg { max-width: 100%; }
     .segmented { width: 100%; justify-content: space-between; }
     .segmented button { flex: 1 1 auto; text-align: center; }
     .modal-card, .modal-box, .modal-content, .modal-calendar-box { padding: 22px 18px; }
+    /* Di HP, modal (mis. "Detail Volume Lalu Lintas" & "Nebula Pro") bisa lebih
+       tinggi dari layar. Tanpa batas tinggi + scroll, isinya meluber ke luar
+       layar dan tombol di dalamnya (mis. "Tutup"/X) tidak bisa ditekan.
+       Batasi tingginya dan buat modalnya bisa discroll. */
+    .modal-content, .modal-card, .modal-box, .modal-warning-box,
+    .modal-grid-box, .modal-profile-box, .modal-calendar-box {
+        max-height: calc(100vh - 40px);
+        max-height: calc(100dvh - 40px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
     .calendar-header h3 { font-size: 1.05rem; }
     .promo-price { font-size: 18px; }
 }
@@ -2147,4 +2158,105 @@ img, svg { max-width: 100%; }
     .header-actions button { width: 100%; }
     .segmented button { font-size: 11.5px; padding: 7px 8px; }
     .profile-info-grid { grid-template-columns: 1fr; }
+}
+/* ================= Topbar dropdown (Notifikasi & Profil) ================= */
+/* Panel ditempel ke .topbar-right agar selalu sejajar dengan tepi kanan dan
+   tidak pernah keluar layar — termasuk saat dibuka di HP. */
+.topbar-right { position: relative; }
+
+.topbar-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 320px;
+    max-width: calc(100vw - 30px);
+    max-height: min(70vh, 430px);
+    overflow-y: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 18px 40px -14px rgba(15, 23, 42, 0.32);
+    padding: 14px;
+    z-index: 80;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.topbar-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+.dropdown-head h4 { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+.dropdown-count {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+.dropdown-profile-head { justify-content: flex-start; }
+.dropdown-profile-head img { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; }
+.dropdown-profile-head strong { display: block; font-size: 14px; color: var(--text-dark); }
+.dropdown-profile-head small { font-size: 12px; color: var(--text-muted); }
+
+.dropdown-list { list-style: none; display: flex; flex-direction: column; }
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.dropdown-item:hover { background: var(--bg-hover); }
+
+.dropdown-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.dropdown-item-text { display: flex; flex-direction: column; min-width: 0; }
+.dropdown-item-text strong { font-size: 13.5px; font-weight: 600; color: var(--text-dark); }
+.dropdown-item-text small { font-size: 12px; color: var(--text-muted); }
+
+.dropdown-item.logout-item { color: var(--down-fg); font-weight: 600; }
+.dropdown-item.logout-item i { width: 36px; text-align: center; font-size: 14px; flex-shrink: 0; }
+
+/* Chevron profil berputar saat menunya terbuka */
+.user-profile .user-chevron { transition: transform 0.25s ease; }
+.user-profile.open { background: var(--bg-hover); }
+.user-profile.open .user-chevron { transform: rotate(180deg); }
+
+@media (max-width: 768px) {
+    .topbar-dropdown { padding: 12px; }
+    .dropdown-item { padding: 12px 10px; }
 }

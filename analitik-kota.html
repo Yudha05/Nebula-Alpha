@@ -373,7 +373,10 @@
         </div>
     </div>
 
-    <!-- Script JavaScript Internal / Bisa dipindah ke script.js -->
+    <!-- Script bersama: tema, sidebar, logout, dropdown topbar -->
+    <script src="script.js"></script>
+
+    <!-- Script khusus halaman Analitik Kota -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -428,67 +431,9 @@
                 if (btnCloseDetailModal) btnCloseDetailModal.addEventListener('click', hideDetail);
             }
 
-            // 5. Logout Modal Handler
-            const logoutModal = id('logoutModal');
-            const openLogoutBtn = id('openLogoutBtn');
-            const cancelLogout = id('cancelLogout');
-            const confirmLogout = id('confirmLogout');
-
-            if (openLogoutBtn && logoutModal) {
-                openLogoutBtn.addEventListener('click', () => logoutModal.classList.add('active'));
-            }
-            if (cancelLogout) {
-                cancelLogout.addEventListener('click', () => logoutModal.classList.remove('active'));
-            }
-            if (confirmLogout) {
-                confirmLogout.addEventListener('click', () => {
-                    alert('Anda telah keluar.');
-                    logoutModal.classList.remove('active');
-                });
-            }
-
             // Helper Function
             function id(elementId) {
                 return document.getElementById(elementId);
-            }
-        });
-
-        // ====== THEME (GELAP / TERANG) TOGGLE ======
-        (function () {
-            const root = document.documentElement;
-
-            function currentTheme() {
-                return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-            }
-
-            function syncIcon(btn) {
-                const icon = btn && btn.querySelector('i');
-                if (icon) icon.className = currentTheme() === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-            }
-
-            document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach((btn) => {
-                syncIcon(btn);
-                btn.addEventListener('click', () => {
-                    const next = currentTheme() === 'dark' ? 'light' : 'dark';
-                    root.setAttribute('data-theme', next);
-                    try { localStorage.setItem('nebula-theme', next); } catch (e) {}
-                    document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach(syncIcon);
-                });
-            });
-        })();
-
-        // ====== SEGMENTED CONTROL (Rentang waktu grafik) ======
-        document.addEventListener('click', (e) => {
-            const btn = e.target.closest('.segmented button');
-            if (!btn || !btn.parentElement) return;
-            btn.parentElement.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
-
-        // ====== Tutup modal apa pun saat area gelap (overlay) di klik ======
-        document.addEventListener('click', (e) => {
-            if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
-                e.target.classList.remove('active');
             }
         });
     </script>
