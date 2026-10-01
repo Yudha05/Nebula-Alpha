@@ -162,8 +162,9 @@ body {
     height: 0;
 }
 
-/* Wrapper is transparent: the whole sidebar scrolls and the promo card
-   floats (sticky) over the menu at the bottom, staying always visible. */
+/* Wrapper is transparent: the whole sidebar is the scroll container and the
+   promo card is part of the normal flow (see .sidebar-card), appearing at the
+   bottom when you scroll down. */
 .sidebar-scroll {
     display: contents;
 }
@@ -209,14 +210,14 @@ body {
 .sidebar ul li.logout { color: var(--down-fg); }
 
 .sidebar-card {
+    /* Normal flow: the card sits after the menu and scrolls with the sidebar,
+       so it never overlays/overlaps the menu items. `margin-top: auto` still
+       pushes it to the bottom when the menu is shorter than the sidebar. */
     margin-top: auto;
     background: var(--promo-bg);
     color: var(--promo-fg);
     padding: 22px 20px;
     border-radius: var(--radius-md);
-    position: sticky;
-    bottom: 0;
-    z-index: 3;
     flex-shrink: 0;
     overflow: hidden;
     border: 1px solid var(--border-color);
@@ -2107,13 +2108,11 @@ img, svg { max-width: 100%; }
     .page-header h1 { font-size: 22px; }
     .stat-value-row h2 { font-size: 24px; }
     .card, .stat-card { padding: 18px; }
-    /* Mobile: the promo card leaves the sticky overlay and follows the menu in
-       normal flow, so it no longer covers the last menu items — it simply
-       appears at the bottom when you scroll down. */
+    /* Mobile: the promo card is in normal flow (same as desktop), so it simply
+       appears at the bottom when you scroll down instead of covering the
+       last menu items. */
     .sidebar-card {
         padding: 18px;
-        position: static;
-        z-index: auto;
         margin-bottom: 4px;
     }
     .topbar-right { gap: 8px; }
