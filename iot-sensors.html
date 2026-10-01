@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tema (Gelap/Terang) — diterapkan sebelum render untuk mencegah kedip warna -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('nebula-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 
     <style>
         /* --- TOAST POP-UP KANAN BAWAH (Registrasi Sensor) --- */
@@ -290,6 +301,13 @@
                     <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
+
+            <!-- Promo Card -->
+            <div class="sidebar-card">
+                <h4>Nebula Pro</h4>
+                <p>Buka semua fitur dan analitik lanjutan.</p>
+                <button class="btn-download">Tingkatkan Sekarang</button>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -305,14 +323,20 @@
                     <input type="text" id="sensorSearchInput" placeholder="Cari ID sensor, lokasi, tipe...">
                 </div>
                 <div class="topbar-right">
-                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
-                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="icon-btn theme-toggle" id="themeToggle" title="Ganti tema" role="button" aria-label="Ganti tema">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div class="icon-btn notif-btn" title="Notifikasi">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notif-dot"></span>
+                    </div>
                     <div class="user-profile">
                         <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
                         <div class="user-info">
                             <p class="user-name">Admin Smart City</p>
                             <p class="user-email">admin@nebula.gov</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down user-chevron"></i>
                     </div>
                 </div>
             </header>
@@ -336,35 +360,39 @@
             <!-- Stats Grid untuk IoT -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Total Sensor Aktif</h3>
-                        <i class="fa-solid fa-satellite-dish"></i>
+                    <div class="stat-icon tile-blue"><i class="fa-solid fa-satellite-dish"></i></div>
+                    <h3 class="stat-label">Total Sensor Aktif</h3>
+                    <div class="stat-value-row">
+                        <h2>1,204</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 2.1%</span>
                     </div>
-                    <h2>1,204</h2>
                     <p><i class="fa-solid fa-check-circle" style="color: #10b981;"></i> 98% Online</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Sensor Offline</h3>
-                        <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>
+                    <div class="stat-icon tile-red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <h3 class="stat-label">Sensor Offline</h3>
+                    <div class="stat-value-row">
+                        <h2>18</h2>
+                        <span class="trend-pill down"><i class="fa-solid fa-arrow-down"></i> 0.8%</span>
                     </div>
-                    <h2>18</h2>
                     <p>Membutuhkan pengecekan</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Peringatan Kritis</h3>
-                        <i class="fa-solid fa-bell" style="color: #f59e0b;"></i>
+                    <div class="stat-icon tile-yellow"><i class="fa-solid fa-bell"></i></div>
+                    <h3 class="stat-label">Peringatan Kritis</h3>
+                    <div class="stat-value-row">
+                        <h2>3</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 1.2%</span>
                     </div>
-                    <h2>3</h2>
-                    <p>Polusi udara tinggi & Banjir</p>
+                    <p>Polusi udara tinggi &amp; Banjir</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Rata-rata Uptime</h3>
-                        <i class="fa-solid fa-bolt"></i>
+                    <div class="stat-icon tile-green"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 class="stat-label">Rata-rata Uptime</h3>
+                    <div class="stat-value-row">
+                        <h2>99.8%</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 0.4%</span>
                     </div>
-                    <h2>99.8%</h2>
                     <p>Dalam 30 hari terakhir</p>
                 </div>
             </div>

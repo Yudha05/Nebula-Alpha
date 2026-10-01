@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tema (Gelap/Terang) — diterapkan sebelum render untuk mencegah kedip warna -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('nebula-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 
     <style>
         /* --- MODAL OVERLAY UMUM --- */
@@ -262,6 +273,13 @@
                     <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
+
+            <!-- Promo Card -->
+            <div class="sidebar-card">
+                <h4>Nebula Pro</h4>
+                <p>Buka semua fitur dan analitik lanjutan.</p>
+                <button class="btn-download">Tingkatkan Sekarang</button>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -277,14 +295,20 @@
                     <input type="text" id="teamSearchInput" placeholder="Cari nama pegawai, ID, atau divisi...">
                 </div>
                 <div class="topbar-right">
-                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
-                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="icon-btn theme-toggle" id="themeToggle" title="Ganti tema" role="button" aria-label="Ganti tema">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div class="icon-btn notif-btn" title="Notifikasi">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notif-dot"></span>
+                    </div>
                     <div class="user-profile">
                         <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
                         <div class="user-info">
                             <p class="user-name">Admin Smart City</p>
                             <p class="user-email">admin@nebula.gov</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down user-chevron"></i>
                     </div>
                 </div>
             </header>
@@ -304,27 +328,30 @@
             <!-- Stats Grid untuk Tim -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Total Personel</h3>
-                        <i class="fa-solid fa-users"></i>
+                    <div class="stat-icon tile-blue"><i class="fa-solid fa-users"></i></div>
+                    <h3 class="stat-label">Total Personel</h3>
+                    <div class="stat-value-row">
+                        <h2>128</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 4%</span>
                     </div>
-                    <h2>128</h2>
                     <p><i class="fa-solid fa-circle-check"></i> 115 Hadir Hari Ini</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Tim Lapangan</h3>
-                        <i class="fa-solid fa-helmet-safety" style="color: #f59e0b;"></i>
+                    <div class="stat-icon tile-yellow"><i class="fa-solid fa-helmet-safety"></i></div>
+                    <h3 class="stat-label">Tim Lapangan</h3>
+                    <div class="stat-value-row">
+                        <h2>45</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 2%</span>
                     </div>
-                    <h2>45</h2>
                     <p>Sedang bertugas (On-Site)</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Operator Pusat</h3>
-                        <i class="fa-solid fa-headset" style="color: #0284c7;"></i>
+                    <div class="stat-icon tile-green"><i class="fa-solid fa-headset"></i></div>
+                    <h3 class="stat-label">Operator Pusat</h3>
+                    <div class="stat-value-row">
+                        <h2>32</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 1%</span>
                     </div>
-                    <h2>32</h2>
                     <p>Standby di Command Center</p>
                 </div>
             </div>

@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tema (Gelap/Terang) — diterapkan sebelum render untuk mencegah kedip warna -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('nebula-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 
     <style>
         /* --- TOAST POP-UP KECIL KANAN BAWAH (Tambah Jadwal) --- */
@@ -227,6 +238,13 @@
                     <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
+
+            <!-- Promo Card -->
+            <div class="sidebar-card">
+                <h4>Nebula Pro</h4>
+                <p>Buka semua fitur dan analitik lanjutan.</p>
+                <button class="btn-download">Tingkatkan Sekarang</button>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -242,14 +260,20 @@
                     <input type="text" id="scheduleSearchInput" placeholder="Cari acara, rapat, atau jadwal pemeliharaan...">
                 </div>
                 <div class="topbar-right">
-                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
-                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="icon-btn theme-toggle" id="themeToggle" title="Ganti tema" role="button" aria-label="Ganti tema">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div class="icon-btn notif-btn" title="Notifikasi">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notif-dot"></span>
+                    </div>
                     <div class="user-profile">
                         <img src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
                         <div class="user-info">
                             <p class="user-name">Admin Smart City</p>
                             <p class="user-email">admin@nebula.gov</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down user-chevron"></i>
                     </div>
                 </div>
             </header>
@@ -273,27 +297,30 @@
             <!-- Stats Grid untuk Jadwal -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Acara Bulan Ini</h3>
-                        <i class="fa-regular fa-calendar-check"></i>
+                    <div class="stat-icon tile-blue"><i class="fa-regular fa-calendar-check"></i></div>
+                    <h3 class="stat-label">Acara Bulan Ini</h3>
+                    <div class="stat-value-row">
+                        <h2>42</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 12%</span>
                     </div>
-                    <h2>42</h2>
-                    <p><i class="fa-solid fa-caret-up"></i> 5 Acara Publik Baru</p>
+                    <p>5 Acara Publik Baru</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Pemeliharaan Rutin</h3>
-                        <i class="fa-solid fa-screwdriver-wrench" style="color: #ca8a04;"></i>
+                    <div class="stat-icon tile-yellow"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <h3 class="stat-label">Pemeliharaan Rutin</h3>
+                    <div class="stat-value-row">
+                        <h2>15</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 5%</span>
                     </div>
-                    <h2>15</h2>
-                    <p>Fasilitas kota & sensor</p>
+                    <p>Fasilitas kota &amp; sensor</p>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <h3>Rapat Pemerintahan</h3>
-                        <i class="fa-solid fa-handshake" style="color: #0284c7;"></i>
+                    <div class="stat-icon tile-green"><i class="fa-solid fa-handshake"></i></div>
+                    <h3 class="stat-label">Rapat Pemerintahan</h3>
+                    <div class="stat-value-row">
+                        <h2>8</h2>
+                        <span class="trend-pill up"><i class="fa-solid fa-arrow-up"></i> 3%</span>
                     </div>
-                    <h2>8</h2>
                     <p>Terkonfirmasi minggu ini</p>
                 </div>
             </div>

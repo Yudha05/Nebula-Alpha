@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tema (Gelap/Terang) — diterapkan sebelum render untuk mencegah kedip warna -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('nebula-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 
     <style>
         /* --- CSS STYLING POP-UP NOTIFIKASI SAVED --- */
@@ -116,6 +127,13 @@
                     <li class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</li>
                 </ul>
             </div>
+
+            <!-- Promo Card -->
+            <div class="sidebar-card">
+                <h4>Nebula Pro</h4>
+                <p>Buka semua fitur dan analitik lanjutan.</p>
+                <button class="btn-download">Tingkatkan Sekarang</button>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -131,14 +149,20 @@
                     <input type="text" placeholder="Cari pengaturan spesifik...">
                 </div>
                 <div class="topbar-right">
-                    <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
-                    <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+                    <div class="icon-btn theme-toggle" id="themeToggle" title="Ganti tema" role="button" aria-label="Ganti tema">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div class="icon-btn notif-btn" title="Notifikasi">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notif-dot"></span>
+                    </div>
                     <div class="user-profile">
                         <img id="topbarAvatar" src="https://ui-avatars.com/api/?name=Admin+Nebula&background=random" alt="Admin">
                         <div class="user-info">
                             <p class="user-name" id="topbarName">Admin Smart City</p>
                             <p class="user-email" id="topbarEmail">admin@nebula.gov</p>
                         </div>
+                        <i class="fa-solid fa-chevron-down user-chevron"></i>
                     </div>
                 </div>
             </header>

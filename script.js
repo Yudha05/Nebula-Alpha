@@ -58,3 +58,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ====== THEME (GELAP / TERANG) TOGGLE ======
+(function () {
+    const root = document.documentElement;
+    const STORAGE_KEY = 'nebula-theme';
+
+    function currentTheme() {
+        return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    }
+
+    // Sinkronkan ikon: mode gelap menampilkan matahari, terang menampilkan bulan.
+    function syncIcon(btn) {
+        if (!btn) return;
+        const icon = btn.querySelector('i');
+        if (!icon) return;
+        icon.className = currentTheme() === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    }
+
+    function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+        document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach(syncIcon);
+    }
+
+    document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach((btn) => {
+        syncIcon(btn);
+        btn.addEventListener('click', () => {
+            applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+        });
+    });
+})();
+
+// ====== SEGMENTED CONTROL (Rentang waktu grafik) ======
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.segmented button');
+    if (!btn || !btn.parentElement) return;
+    btn.parentElement.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+});

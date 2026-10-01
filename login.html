@@ -6,6 +6,17 @@
     <title>Nebula - Login Smart City</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tema (Gelap/Terang) — diterapkan sebelum render untuk mencegah kedip warna -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('nebula-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 
     <style>
         /* --- STYLES UNTUK POP-UP MODAL --- */
@@ -96,6 +107,9 @@
     </style>
 </head>
 <body class="login-body">
+    <button class="login-theme-toggle theme-toggle" id="themeToggle" title="Ganti tema" aria-label="Ganti tema">
+        <i class="fa-solid fa-sun"></i>
+    </button>
     <div class="login-container">
         <div class="login-header">
             <i class="fa-solid fa-compact-disc"></i>
@@ -206,6 +220,30 @@
                 });
             }
         });
+
+        // ====== THEME (GELAP / TERANG) TOGGLE ======
+        (function () {
+            const root = document.documentElement;
+
+            function currentTheme() {
+                return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+            }
+
+            function syncIcon(btn) {
+                const icon = btn && btn.querySelector('i');
+                if (icon) icon.className = currentTheme() === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+
+            document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach((btn) => {
+                syncIcon(btn);
+                btn.addEventListener('click', () => {
+                    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+                    root.setAttribute('data-theme', next);
+                    try { localStorage.setItem('nebula-theme', next); } catch (e) {}
+                    document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach(syncIcon);
+                });
+            });
+        })();
     </script>
 </body>
 </html>
