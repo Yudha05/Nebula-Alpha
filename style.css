@@ -837,7 +837,7 @@ body {
 }
 .sensor-item:hover {
     border-color: var(--primary);
-    background: #fdfdfd;
+    background: var(--bg-hover);
 }
 .sensor-info {
     display: flex;
@@ -1996,6 +1996,14 @@ html[data-theme="dark"] .detail-table td { border-color: var(--border-color); co
 html[data-theme="dark"] .user-notes-section h4,
 html[data-theme="dark"] .popup-info-value { color: var(--text-dark); }
 html[data-theme="dark"] .clickable-item:hover { background-color: var(--bg-hover); }
+/* Jaring pengaman: apa pun aturan hover bawaan halaman, di mode gelap item
+   sensor & header popup tetap gelap. */
+html[data-theme="dark"] .sensor-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+}
+html[data-theme="dark"] .popup-header { border-bottom-color: var(--border-color); }
+html[data-theme="dark"] .sensor-info h4 { color: var(--text-dark); }
 
 /* ---- Scrollbars ---- */
 ::-webkit-scrollbar { width: 10px; height: 10px; }

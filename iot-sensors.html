@@ -78,7 +78,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
 
@@ -130,7 +130,10 @@
         }
 
         .sensor-item:hover {
-            background-color: #f8fafc;
+            /* Pakai token tema biar tetap gelap saat mode gelap
+               (sebelumnya hardcode #f8fafc -> putih + teks terang = tak terbaca). */
+            background-color: var(--bg-hover);
+            border-color: var(--primary);
         }
 
         /* --- MODAL OVERLAY UMUM --- */
