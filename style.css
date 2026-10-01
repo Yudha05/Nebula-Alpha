@@ -2291,3 +2291,48 @@ img, svg { max-width: 100%; }
     .topbar-dropdown { padding: 12px; }
     .dropdown-item { padding: 12px 10px; }
 }
+/* ============================================================
+   TOPBAR LENGKET (STICKY, HIDE ON SCROLL DOWN)
+   Topbar ikut menggulir: tetap di atas, sembunyi saat menggulir
+   ke bawah, lalu muncul lagi begitu menggulir ke atas sedikit.
+   Diletakkan di akhir berkas agar menang urutan sumber atas
+   aturan .topbar sebelumnya (spesifisitas sama -> urutan menang).
+   ============================================================ */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    /* Tarik keluar dari padding .main-content (26px 30px) supaya latar
+       topbar menutup penuh lebar layar — tidak ada celah konten di pinggir
+       saat konten lewat di belakangnya. */
+    margin: -26px -30px 26px;
+    padding: 26px 30px 18px;
+    background-color: var(--bg-main);
+    border-bottom: 1px solid var(--border-color);
+    transform: translateY(0);
+    transition: transform 0.32s ease, box-shadow 0.32s ease,
+                background-color 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+}
+
+/* Kelas dari JS: disembunyikan saat menggulir ke bawah */
+.topbar.is-hidden { transform: translateY(-100%); }
+
+/* Bayangan halus saat topbar menempel di atas */
+.topbar.is-stuck { box-shadow: var(--shadow-soft); }
+
+@media (max-width: 768px) {
+    .topbar {
+        /* Selaraskan dengan padding .main-content versi HP (20px 15px). */
+        margin: -20px -15px 20px;
+        padding: 20px 15px 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .topbar {
+        /* Di layar sempit .main-content jadi 16px 12px 40px. */
+        margin: -16px -12px 18px;
+        padding: 16px 12px 12px;
+    }
+}

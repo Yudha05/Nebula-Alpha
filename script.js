@@ -228,3 +228,40 @@ document.addEventListener('click', (e) => {
         if (e.key === 'Escape') closeAll();
     });
 })();
+// ====== TOPBAR LENGKET: SEMBUNYI SAAT GULIR KE BAWAH, MUNCUL SAAT KE ATAS ======
+(function () {
+    const topbar = document.querySelector('.topbar');
+    if (!topbar) return;
+
+    const SHOW_AT_TOP = 90; // px dari atas: selama belum lewat, topbar selalu tampil
+    let lastY = window.scrollY || window.pageYOffset || 0;
+    let ticking = false;
+
+    function update() {
+        const y = window.scrollY || window.pageYOffset || 0;
+
+        // Jangan sembunyikan kalau menu dropdown topbar sedang terbuka.
+        const dropdownOpen = topbar.querySelector('.topbar-dropdown.open');
+
+        if (y <= SHOW_AT_TOP) {
+            topbar.classList.remove('is-hidden');
+        } else if (y > lastY && !dropdownOpen) {
+            topbar.classList.add('is-hidden');
+        } else if (y < lastY) {
+            topbar.classList.remove('is-hidden');
+        }
+
+        topbar.classList.toggle('is-stuck', y > 8);
+        lastY = y;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            ticking = true;
+            window.requestAnimationFrame(update);
+        }
+    }, { passive: true });
+
+    update();
+})();
