@@ -2173,6 +2173,12 @@ img, svg { max-width: 100%; }
    tidak pernah keluar layar — termasuk saat dibuka di HP. */
 .topbar-right { position: relative; }
 
+/* Keadaan aktif tombol ikon (lonceng) saat menunya terbuka */
+.icon-btn.open {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
 .topbar-dropdown {
     position: absolute;
     top: calc(100% + 12px);
