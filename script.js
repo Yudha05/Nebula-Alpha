@@ -97,3 +97,10 @@ document.addEventListener('click', (e) => {
     btn.parentElement.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
 });
+
+// ====== Tutup modal apa pun saat area gelap (overlay) di klik ======
+document.addEventListener('click', (e) => {
+    if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
+    }
+});

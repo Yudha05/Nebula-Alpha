@@ -243,9 +243,11 @@
 
             <!-- Promo Card -->
             <div class="sidebar-card">
+                <span class="promo-badge">Langganan</span>
                 <h4>Nebula Pro</h4>
-                <p>Buka semua fitur dan analitik lanjutan.</p>
-                <button class="btn-download">Tingkatkan Sekarang</button>
+                <p>Analitik lanjutan, sensor IoT tanpa batas, ekspor laporan &amp; dukungan prioritas 24/7.</p>
+                <div class="promo-price">Rp 1.000.000 <span>/ bulan</span></div>
+                <button class="btn-download" onclick="document.getElementById('proModal').classList.add('active')">Berlangganan Sekarang</button>
             </div>
         </aside>
 
@@ -463,9 +465,9 @@
             <div class="modal-icon-apology">
                 <i class="fa-solid fa-hands-praying"></i>
             </div>
-            <h3 style="margin-bottom: 8px; color: #0f172a;">Pemberitahuan</h3>
-            <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 24px;">Mohon maaf belum bisa di pakai</p>
-            <button class="btn-primary" style="width: 100%;" onclick="closeFilterModal()">Mengerti</button>
+            <h3 style="margin-bottom: 8px; color: var(--text-dark);">Pemberitahuan</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Mohon maaf belum bisa di pakai</p>
+            <button class="btn-plain" style="width: 100%;" onclick="closeFilterModal()">Mengerti</button>
         </div>
     </div>
 
@@ -579,6 +581,27 @@
             <div class="modal-actions">
                 <button id="cancelLogout" class="btn-outline">Batal</button>
                 <button id="confirmLogout" class="btn-primary btn-danger">Ya, Keluar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Langganan Nebula Pro -->
+    <div class="modal-overlay" id="proModal">
+        <div class="modal-content pro-modal">
+            <div class="pro-modal-icon"><i class="fa-solid fa-crown"></i></div>
+            <h3>Nebula Pro</h3>
+            <p>Buka seluruh kemampuan Nebula untuk kota &amp; bisnis Anda.</p>
+            <div class="pro-price">Rp 1.000.000 <span>/ bulan</span></div>
+            <ul class="pro-features">
+                <li><i class="fa-solid fa-circle-check"></i> Analitik AI &amp; prediksi lanjutan</li>
+                <li><i class="fa-solid fa-circle-check"></i> Sensor IoT tanpa batas</li>
+                <li><i class="fa-solid fa-circle-check"></i> Ekspor laporan &amp; akses API</li>
+                <li><i class="fa-solid fa-circle-check"></i> Dukungan prioritas 24/7</li>
+                <li><i class="fa-solid fa-circle-check"></i> Penyimpanan data tanpa batas</li>
+            </ul>
+            <div class="modal-actions">
+                <button class="btn-plain" onclick="document.getElementById('proModal').classList.remove('active')">Nanti Saja</button>
+                <button class="btn-primary" onclick="document.getElementById('proModal').classList.remove('active')">Mulai Berlangganan</button>
             </div>
         </div>
     </div>

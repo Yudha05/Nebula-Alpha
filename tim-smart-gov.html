@@ -150,6 +150,8 @@
             border: 4px solid #ffffff;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             background: #fff;
+            position: relative;
+            z-index: 2;
         }
 
         .profile-title-group {
@@ -276,9 +278,11 @@
 
             <!-- Promo Card -->
             <div class="sidebar-card">
+                <span class="promo-badge">Langganan</span>
                 <h4>Nebula Pro</h4>
-                <p>Buka semua fitur dan analitik lanjutan.</p>
-                <button class="btn-download">Tingkatkan Sekarang</button>
+                <p>Analitik lanjutan, sensor IoT tanpa batas, ekspor laporan &amp; dukungan prioritas 24/7.</p>
+                <div class="promo-price">Rp 1.000.000 <span>/ bulan</span></div>
+                <button class="btn-download" onclick="document.getElementById('proModal').classList.add('active')">Berlangganan Sekarang</button>
             </div>
         </aside>
 
@@ -459,9 +463,9 @@
             <div class="modal-icon-laugh">
                 <i class="fa-solid fa-face-laugh-squint"></i>
             </div>
-            <h3 style="margin-bottom: 8px; color: #0f172a;">Akses Ditolak!</h3>
-            <p style="color: #64748b; font-size: 1rem; font-weight: 600; margin-bottom: 24px;">tidak bisa add anda bukan admin</p>
-            <button class="btn-primary" style="width: 100%;" onclick="closeAddMemberModal()">Tutup</button>
+            <h3 style="margin-bottom: 8px; color: var(--text-dark);">Akses Ditolak!</h3>
+            <p style="color: var(--text-muted); font-size: 1rem; font-weight: 600; margin-bottom: 24px;">tidak bisa add anda bukan admin</p>
+            <button class="btn-plain" style="width: 100%;" onclick="closeAddMemberModal()">Tutup</button>
         </div>
     </div>
 
@@ -471,9 +475,9 @@
             <div class="modal-icon-deny">
                 <i class="fa-solid fa-ban"></i>
             </div>
-            <h3 style="margin-bottom: 8px; color: #0f172a;">Pemberitahuan</h3>
-            <p style="color: #64748b; font-size: 1rem; font-weight: 500; margin-bottom: 24px;">mohon maaf tidak bisa</p>
-            <button class="btn-primary" style="width: 100%;" onclick="closeExportModal()">Mengerti</button>
+            <h3 style="margin-bottom: 8px; color: var(--text-dark);">Pemberitahuan</h3>
+            <p style="color: var(--text-muted); font-size: 1rem; font-weight: 500; margin-bottom: 24px;">mohon maaf tidak bisa</p>
+            <button class="btn-plain" style="width: 100%;" onclick="closeExportModal()">Mengerti</button>
         </div>
     </div>
 
@@ -542,6 +546,27 @@
         </div>
     </div>
 
+    <!-- Modal Langganan Nebula Pro -->
+    <div class="modal-overlay" id="proModal">
+        <div class="modal-content pro-modal">
+            <div class="pro-modal-icon"><i class="fa-solid fa-crown"></i></div>
+            <h3>Nebula Pro</h3>
+            <p>Buka seluruh kemampuan Nebula untuk kota &amp; bisnis Anda.</p>
+            <div class="pro-price">Rp 1.000.000 <span>/ bulan</span></div>
+            <ul class="pro-features">
+                <li><i class="fa-solid fa-circle-check"></i> Analitik AI &amp; prediksi lanjutan</li>
+                <li><i class="fa-solid fa-circle-check"></i> Sensor IoT tanpa batas</li>
+                <li><i class="fa-solid fa-circle-check"></i> Ekspor laporan &amp; akses API</li>
+                <li><i class="fa-solid fa-circle-check"></i> Dukungan prioritas 24/7</li>
+                <li><i class="fa-solid fa-circle-check"></i> Penyimpanan data tanpa batas</li>
+            </ul>
+            <div class="modal-actions">
+                <button class="btn-plain" onclick="document.getElementById('proModal').classList.remove('active')">Nanti Saja</button>
+                <button class="btn-primary" onclick="document.getElementById('proModal').classList.remove('active')">Mulai Berlangganan</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 
     <script>
@@ -557,7 +582,7 @@
                 status: "Aktif",
                 statusColor: "#16a34a",
                 bgColor: "#0284c7",
-                avatar: "https://ui-avatars.com/api/?name=Budi+Santoso&background=fff&color=0284c7",
+                avatar: "https://ui-avatars.com/api/?name=Budi+Santoso&background=0284c7&color=fff",
                 bio: "Budi adalah veteran dalam manajemen krisis kota pintar. Memimpin 30+ operator di Command Center 24/7 dengan respons darurat rata-rata di bawah 3 menit.",
                 skills: ["Crisis Management", "Incident Response", "Smart Grid Surveillance", "Public Safety"],
                 task: "Memimpin koordinasi tanggap darurat banjir Sektor Timur & pengawasan lalu lintas sore."
@@ -572,7 +597,7 @@
                 status: "Aktif",
                 statusColor: "#16a34a",
                 bgColor: "#9333ea",
-                avatar: "https://ui-avatars.com/api/?name=Siti+Aisyah&background=fff&color=9333ea",
+                avatar: "https://ui-avatars.com/api/?name=Siti+Aisyah&background=9333ea&color=fff",
                 bio: "Spesialis Machine Learning & AI Prediktif Kota. Siti merancang algoritma prediksi titik kemacetan dan analisis polusi udara otomatis untuk platform Nebula.",
                 skills: ["Python/R", "AI & Predictive Analytics", "Big Data Visualization", "SQL Databases"],
                 task: "Mengoptimalkan model AI untuk pemetaan kualitas udara berbasis IoT real-time."
@@ -587,7 +612,7 @@
                 status: "On-Site",
                 statusColor: "#ca8a04",
                 bgColor: "#ca8a04",
-                avatar: "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=fff&color=ca8a04",
+                avatar: "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=ca8a04&color=fff",
                 bio: "Gardu terdepan dalam keandalan hardware Nebula. Ahli memanjat tower sensor, kalibrasi CCTV AI, dan perbaikan perangkat telemetri air di seluruh penjuru kota.",
                 skills: ["IoT Hardware Repair", "LoRaWAN Network", "CCTV AI Maintenance", "Solar Power Grid"],
                 task: "Penggantian modul sensor banjir ultrasonik di Jembatan Sektor Utara."
@@ -602,7 +627,7 @@
                 status: "Cuti",
                 statusColor: "#dc2626",
                 bgColor: "#475569",
-                avatar: "https://ui-avatars.com/api/?name=Diana+Putri&background=fff&color=475569",
+                avatar: "https://ui-avatars.com/api/?name=Diana+Putri&background=475569&color=fff",
                 bio: "Pengelola dokumentasi operasional, surat izin akses sistem, serta pengarsipan data statistik publik Nebula. Saat ini sedang menjalankan cuti tahunan.",
                 skills: ["Public Relations", "Data Archiving", "Government Protocol", "Resource Planning"],
                 task: "Dalam masa cuti tahunan hingga 24 November (Tugas diwakilkan sementara)."
