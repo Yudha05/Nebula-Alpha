@@ -10,7 +10,13 @@
     <script>
         (function () {
             try {
-                var t = localStorage.getItem('nebula-theme') || 'dark';
+                var m = localStorage.getItem('nebula-theme-mode');
+                if (m !== 'light' && m !== 'dark' && m !== 'system') {
+                    m = localStorage.getItem('nebula-theme') === 'light' ? 'light' : 'dark';
+                }
+                var t = m === 'system'
+                    ? (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                    : m;
                 document.documentElement.setAttribute('data-theme', t);
             } catch (e) {
                 document.documentElement.setAttribute('data-theme', 'dark');
@@ -221,7 +227,7 @@
             }
         });
 
-        // ====== THEME (GELAP / TERANG) TOGGLE ======
+        // ====== THEME (TERANG / GELAP) TOGGLE ======
         (function () {
             const root = document.documentElement;
 
@@ -239,7 +245,12 @@
                 btn.addEventListener('click', () => {
                     const next = currentTheme() === 'dark' ? 'light' : 'dark';
                     root.setAttribute('data-theme', next);
-                    try { localStorage.setItem('nebula-theme', next); } catch (e) {}
+                    try {
+                        // Mode eksplisit (light/dark) + tema hasil, agar sinkron
+                        // dengan pemilih tema di Pengaturan Sistem.
+                        localStorage.setItem('nebula-theme-mode', next);
+                        localStorage.setItem('nebula-theme', next);
+                    } catch (e) {}
                     document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach(syncIcon);
                 });
             });

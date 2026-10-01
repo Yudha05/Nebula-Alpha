@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nebula - Pengaturan Sistem</title>
+    <title>Nebula - Pengaturan Akun</title>
     <link rel="stylesheet" href="style.css">
     <!-- Menggunakan FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -83,22 +83,6 @@
             margin-bottom: 24px;
             line-height: 1.5;
         }
-
-        .btn-modal-close {
-            background-color: #4F46E5;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-modal-close:hover {
-            background-color: #4338CA;
-        }
     </style>
 </head>
 <body>
@@ -146,10 +130,9 @@
                 <button class="btn-download" onclick="document.getElementById('proModal').classList.add('active')">Berlangganan Sekarang</button>
             </div>
         </aside>
-
-        <!-- Main Content -->
+<!-- Main Content -->
         <main class="main-content">
-            
+
             <!-- Topbar -->
             <header class="topbar">
                 <div class="hamburger" id="menuToggle">
@@ -157,7 +140,7 @@
                 </div>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Cari pengaturan spesifik...">
+                    <input type="text" placeholder="Cari pengaturan akun...">
                 </div>
                 <div class="topbar-right">
                     <div class="icon-btn theme-toggle" id="themeToggle" title="Ganti tema" role="button" aria-label="Ganti tema">
@@ -181,8 +164,8 @@
             <!-- Dashboard Header -->
             <div class="page-header">
                 <div>
-                    <h1>Pengaturan Sistem</h1>
-                    <p>Konfigurasi notifikasi, tampilan, dan preferensi platform Nebula.</p>
+                    <h1>Pengaturan Akun</h1>
+                    <p>Kelola profil, foto, dan keamanan akun Anda.</p>
                 </div>
                 <div class="header-actions">
                     <button class="btn-primary" id="saveSettingsBtn"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
@@ -191,25 +174,87 @@
 
             <!-- Pemilih halaman: Akun vs Sistem -->
             <div class="segmented" style="margin-bottom: 22px;">
-                <button type="button" onclick="window.location.href='pengaturan-akun.html'"><i class="fa-solid fa-user"></i>&nbsp; Akun</button>
-                <button type="button" class="active"><i class="fa-solid fa-sliders"></i>&nbsp; Sistem</button>
+                <button type="button" class="active"><i class="fa-solid fa-user"></i>&nbsp; Akun</button>
+                <button type="button" onclick="window.location.href='pengaturan.html'"><i class="fa-solid fa-sliders"></i>&nbsp; Sistem</button>
             </div>
 
             <!-- Content Area -->
             <div class="content-grid-3 mt-20">
-                
-                <!-- Notifikasi (Peringatan) - Lebar 2 Kolom -->
+
+                <!-- Profil Akun (Kiri - Lebar 2 Kolom) -->
                 <div class="card col-span-2">
                     <div class="card-header-flex">
-                        <h3>Notifikasi (Peringatan)</h3>
+                        <h3>Profil Pengguna</h3>
+                    </div>
+
+                    <div class="profile-settings mt-10">
+                        <div class="profile-pic-section">
+                            <img id="profileImagePreview" src="https://ui-avatars.com/api/?name=Admin+Nebula&background=e0f2fe&color=0284c7" alt="Profile">
+                            <div>
+                                <!-- Hidden File Input -->
+                                <input type="file" id="avatarFileInput" accept="image/png, image/jpeg, image/gif" style="display: none;">
+                                <button type="button" class="btn-outline btn-small" id="uploadAvatarBtn"><i class="fa-solid fa-camera"></i> Ubah Foto</button>
+                                <p class="help-text">JPG, GIF atau PNG. Maks 2MB.</p>
+                            </div>
+                        </div>
+
+                        <form class="settings-form" id="profileForm" onsubmit="return false;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" id="inputName" value="Admin Smart City" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat Email</label>
+                                    <input type="email" id="inputEmail" value="admin@nebula.gov" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Peran (Role)</label>
+                                    <select class="form-control" disabled>
+                                        <option>Super Admin</option>
+                                        <option>Operator</option>
+                                        <option>Viewer</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor Telepon</label>
+                                    <input type="text" value="+62 812 3456 7890" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Bio / Deskripsi Tugas</label>
+                                <textarea class="form-control" rows="3">Penanggung jawab utama pemantauan Command Center Nebula, mengawasi pergerakan trafik dan sensor kualitas lingkungan kota.</textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+<!-- Keamanan Akun (Kanan - 1 Kolom) -->
+                <div class="card col-span-1">
+                    <div class="card-header-flex">
+                        <h3>Keamanan Akun</h3>
                     </div>
                     <div class="security-list mt-10">
                         <div class="security-item">
                             <div class="sec-info">
-                                <i class="fa-solid fa-triangle-exclamation" style="color: #dc2626;"></i>
+                                <i class="fa-solid fa-key" style="color: var(--primary);"></i>
                                 <div>
-                                    <h4>Peringatan Kritis (Polusi/Banjir)</h4>
-                                    <p>Kirim notifikasi saat sensor melewati ambang batas</p>
+                                    <h4>Kata Sandi</h4>
+                                    <p>Terakhir diubah 30 hari lalu</p>
+                                </div>
+                            </div>
+                            <button class="btn-small btn-outline">Ubah</button>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="sec-info">
+                                <i class="fa-solid fa-shield-halved" style="color: #0ea5e9;"></i>
+                                <div>
+                                    <h4>Autentikasi 2 Langkah</h4>
+                                    <p>Amankan akun dengan 2FA</p>
                                 </div>
                             </div>
                             <label class="switch">
@@ -220,119 +265,21 @@
 
                         <div class="security-item">
                             <div class="sec-info">
-                                <i class="fa-solid fa-envelope" style="color: #0284c7;"></i>
+                                <i class="fa-solid fa-laptop-code" style="color: #f59e0b;"></i>
                                 <div>
-                                    <h4>Laporan Harian (Email)</h4>
-                                    <p>Ringkasan aktivitas kota setiap pagi</p>
+                                    <h4>Sesi Perangkat</h4>
+                                    <p>2 Perangkat aktif saat ini</p>
                                 </div>
                             </div>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-
-                        <div class="security-item">
-                            <div class="sec-info">
-                                <i class="fa-solid fa-satellite-dish" style="color: #f59e0b;"></i>
-                                <div>
-                                    <h4>Update Sensor Offline</h4>
-                                    <p>Beritahu saat sensor terputus dari jaringan</p>
-                                </div>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider round"></span>
-                            </label>
+                            <button class="btn-small btn-outline">Kelola</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tampilan (Tema) - Lebar 1 Kolom -->
-                <div class="card col-span-1">
-                    <div class="card-header-flex">
-                        <h3>Tampilan</h3>
-                    </div>
-                    <p class="help-text" style="margin-top: 0;">Pilih tema antarmuka Nebula.</p>
-                    <div class="theme-choice">
-                        <button type="button" class="theme-option" data-theme-mode="light">
-                            <i class="fa-solid fa-sun"></i>Terang
-                        </button>
-                        <button type="button" class="theme-option" data-theme-mode="dark">
-                            <i class="fa-solid fa-moon"></i>Gelap
-                        </button>
-                        <button type="button" class="theme-option" data-theme-mode="system">
-                            <i class="fa-solid fa-circle-half-stroke"></i>Sistem
-                        </button>
-                    </div>
-                </div>
-                <!-- Wilayah & Bahasa - Lebar 1 Kolom -->
-                <div class="card col-span-1">
-                    <div class="card-header-flex">
-                        <h3>Wilayah &amp; Bahasa</h3>
-                    </div>
-                    <div class="settings-form mt-10">
-                        <div class="form-group">
-                            <label>Bahasa</label>
-                            <select class="form-control">
-                                <option>Bahasa Indonesia</option>
-                                <option>English</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Zona Waktu</label>
-                            <select class="form-control">
-                                <option>WIB (GMT+7)</option>
-                                <option>WITA (GMT+8)</option>
-                                <option>WIT (GMT+9)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Informasi Sistem - Lebar 2 Kolom -->
-                <div class="card col-span-2">
-                    <div class="card-header-flex">
-                        <h3>Informasi Sistem</h3>
-                    </div>
-                    <div class="security-list mt-10">
-                        <div class="security-item">
-                            <div class="sec-info">
-                                <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i>
-                                <div>
-                                    <h4>Versi Platform</h4>
-                                    <p>Nebula Smart City v2.0 (prototype)</p>
-                                </div>
-                            </div>
-                            <span class="status-badge status-active">Terbaru</span>
-                        </div>
-                        <div class="security-item">
-                            <div class="sec-info">
-                                <i class="fa-solid fa-server" style="color: #0284c7;"></i>
-                                <div>
-                                    <h4>Status Layanan</h4>
-                                    <p>Semua layanan berjalan normal</p>
-                                </div>
-                            </div>
-                            <span class="status-badge status-active">Online</span>
-                        </div>
-                        <div class="security-item">
-                            <div class="sec-info">
-                                <i class="fa-solid fa-database" style="color: #16a34a;"></i>
-                                <div>
-                                    <h4>Penyimpanan Data</h4>
-                                    <p>Terpakai 12 GB dari 50 GB</p>
-                                </div>
-                            </div>
-                            <span class="status-badge status-maintenance">24%</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
-
-    <!-- POP-UP MODAL SIMPAN PERUBAHAN -->
+<!-- POP-UP MODAL SIMPAN PERUBAHAN -->
     <div class="modal-overlay" id="saveSuccessModal">
         <div class="modal-card">
             <div class="modal-icon-success">
@@ -379,19 +326,68 @@
             </div>
         </div>
     </div>
+<script src="script.js"></script>
 
-    <script src="script.js"></script>
-
-    <!-- JAVASCRIPT LOKAL HALAMAN PENGATURAN -->
+    <!-- JAVASCRIPT LOKAL HALAMAN PENGATURAN AKUN -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            const uploadAvatarBtn = document.getElementById('uploadAvatarBtn');
+            const avatarFileInput = document.getElementById('avatarFileInput');
+            const profileImagePreview = document.getElementById('profileImagePreview');
+            const topbarAvatar = document.getElementById('topbarAvatar');
+
             const saveSettingsBtn = document.getElementById('saveSettingsBtn');
             const saveSuccessModal = document.getElementById('saveSuccessModal');
             const closeSaveModalBtn = document.getElementById('closeSaveModalBtn');
 
-            // 1. Tangani tombol 'Simpan Perubahan'
+            const inputName = document.getElementById('inputName');
+            const inputEmail = document.getElementById('inputEmail');
+            const topbarName = document.getElementById('topbarName');
+            const topbarEmail = document.getElementById('topbarEmail');
+
+            let newAvatarData = null;
+
+            // 1. Trigger File Upload ketika tombol 'Ubah Foto' diklik
+            if (uploadAvatarBtn && avatarFileInput) {
+                uploadAvatarBtn.addEventListener('click', () => {
+                    avatarFileInput.click();
+                });
+            }
+
+            // 2. Baca file gambar yang di-upload
+            if (avatarFileInput) {
+                avatarFileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (file.size > 2 * 1024 * 1024) {
+                            alert("Ukuran file terlalu besar! Maksimal 2MB.");
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function (evt) {
+                            newAvatarData = evt.target.result;
+                            profileImagePreview.src = newAvatarData; // Pratinjau langsung di profil
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // 3. Tangani tombol 'Simpan Perubahan'
             if (saveSettingsBtn) {
                 saveSettingsBtn.addEventListener('click', () => {
+                    // Update tampilan Topbar secara langsung di halaman ini
+                    if (inputName && topbarName) {
+                        topbarName.textContent = inputName.value || "Admin Smart City";
+                    }
+                    if (inputEmail && topbarEmail) {
+                        topbarEmail.textContent = inputEmail.value || "admin@nebula.gov";
+                    }
+                    if (newAvatarData && topbarAvatar) {
+                        topbarAvatar.src = newAvatarData;
+                    }
+
                     // Tampilkan Pop-up Notifikasi Prototype
                     if (saveSuccessModal) {
                         saveSuccessModal.classList.add('active');
@@ -399,7 +395,7 @@
                 });
             }
 
-            // 2. Tutup Modal Pop-up Simpan
+            // 4. Tutup Modal Pop-up Simpan
             if (closeSaveModalBtn && saveSuccessModal) {
                 closeSaveModalBtn.addEventListener('click', () => {
                     saveSuccessModal.classList.remove('active');
@@ -413,33 +409,6 @@
                     }
                 });
             }
-// 3. Pemilih Tema (Terang / Gelap / Sesuai Sistem)
-            const themeOptions = document.querySelectorAll('.theme-option');
-
-            // Sorot berdasarkan MODE yang dipilih (light/dark/system) — bukan tema hasil.
-            // Jadi saat memilih "Sistem", pilihan yang aktif tetap "Sistem",
-            // walau tampilan sedang terang atau gelap mengikuti OS.
-            function markActiveThemeOption() {
-                const mode = window.NebulaTheme ? window.NebulaTheme.getMode() : 'dark';
-                themeOptions.forEach((btn) => {
-                    btn.classList.toggle('active', btn.getAttribute('data-theme-mode') === mode);
-                });
-            }
-
-            themeOptions.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    if (window.NebulaTheme) {
-                        window.NebulaTheme.setMode(btn.getAttribute('data-theme-mode'));
-                    }
-                    markActiveThemeOption();
-                });
-            });
-
-            // Tetap sinkron kalau tema diubah dari tombol topbar,
-            // atau preferensi OS berubah saat mode "Sistem" aktif.
-            document.addEventListener('nebula:themechange', markActiveThemeOption);
-
-            markActiveThemeOption();
         });
     </script>
 </body>

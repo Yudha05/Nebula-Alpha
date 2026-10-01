@@ -59,35 +59,90 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ====== THEME (GELAP / TERANG) TOGGLE ======
+// ====== THEME (TERANG / GELAP / SISTEM) ======
+// Sumber kebenaran = 'nebula-theme-mode' (light | dark | system).
+// 'nebula-theme' tetap disimpan sebagai tema HASIL, dipakai skrip pre-paint.
+// Mode 'system' selalu dilihat sebagai 'system' (bukan ikut jadi light/dark),
+// tapi tampilan tetap mengikuti preferensi OS dan ikut berubah saat OS berubah.
 (function () {
     const root = document.documentElement;
-    const STORAGE_KEY = 'nebula-theme';
+    const MODE_KEY = 'nebula-theme-mode';
+    const THEME_KEY = 'nebula-theme';
+    const VALID = ['light', 'dark', 'system'];
+    const mql = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
-    function currentTheme() {
-        return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    function systemTheme() {
+        return (mql && mql.matches) ? 'dark' : 'light';
     }
 
-    // Sinkronkan ikon: mode gelap menampilkan matahari, terang menampilkan bulan.
-    function syncIcon(btn) {
-        if (!btn) return;
-        const icon = btn.querySelector('i');
-        if (!icon) return;
-        icon.className = currentTheme() === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    function getMode() {
+        let mode = null;
+        try { mode = localStorage.getItem(MODE_KEY); } catch (e) {}
+        if (VALID.indexOf(mode) !== -1) return mode;
+
+        // Migrasi dari versi lama yang hanya menyimpan tema hasil.
+        let old = null;
+        try { old = localStorage.getItem(THEME_KEY); } catch (e) {}
+        return (old === 'light' || old === 'dark') ? old : 'dark';
     }
 
-    function applyTheme(theme) {
+    function resolve(mode) {
+        if (mode === 'system') return systemTheme();
+        return mode === 'light' ? 'light' : 'dark';
+    }
+
+    function syncIcons(theme) {
+        document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach((btn) => {
+            const icon = btn && btn.querySelector('i');
+            if (icon) icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        });
+    }
+
+    function apply(mode, persist) {
+        const theme = resolve(mode);
         root.setAttribute('data-theme', theme);
-        try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
-        document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach(syncIcon);
+        if (persist !== false) {
+            try {
+                localStorage.setItem(MODE_KEY, mode);
+                localStorage.setItem(THEME_KEY, theme);
+            } catch (e) {}
+        }
+        syncIcons(theme);
+        document.dispatchEvent(new CustomEvent('nebula:themechange', {
+            detail: { mode: mode, theme: theme }
+        }));
     }
 
+    // Ikuti perubahan preferensi OS secara live selama mode = 'system'
+    if (mql) {
+        const onSystemChange = () => { if (getMode() === 'system') apply('system', false); };
+        if (mql.addEventListener) mql.addEventListener('change', onSystemChange);
+        else if (mql.addListener) mql.addListener(onSystemChange); // Safari lama
+    }
+
+    // Terapkan saat halaman dimuat supaya tema + ikon selalu sinkron
+    apply(getMode(), true);
+
+    // Tombol tema di topbar: pilih kebalikan tema yang sedang tampil (simpan eksplisit)
     document.querySelectorAll('.theme-toggle, .login-theme-toggle').forEach((btn) => {
-        syncIcon(btn);
         btn.addEventListener('click', () => {
-            applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+            const shown = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+            apply(shown === 'dark' ? 'light' : 'dark', true);
         });
     });
+
+    // API bersama: dipakai pemilih tema di halaman Pengaturan Sistem
+    window.NebulaTheme = {
+        MODE_KEY: MODE_KEY,
+        THEME_KEY: THEME_KEY,
+        getMode: getMode,
+        getTheme: function () { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; },
+        setMode: function (mode) {
+            if (VALID.indexOf(mode) === -1) mode = 'dark';
+            apply(mode, true);
+            return mode;
+        }
+    };
 })();
 
 // ====== SEGMENTED CONTROL (Rentang waktu grafik) ======
@@ -178,7 +233,7 @@ document.addEventListener('click', (e) => {
                 '<span class="dropdown-item-text"><strong>' + name + '</strong><small>' + email + '</small></span>' +
             '</div>' +
             '<ul class="dropdown-list">' +
-                '<li class="dropdown-item" data-nav="pengaturan.html">' +
+                '<li class="dropdown-item" data-nav="pengaturan-akun.html">' +
                     '<span class="dropdown-item-icon"><i class="fa-solid fa-user"></i></span>' +
                     '<span class="dropdown-item-text"><strong>Profil Saya</strong></span>' +
                 '</li>' +

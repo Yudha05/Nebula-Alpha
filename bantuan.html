@@ -10,7 +10,13 @@
     <script>
         (function () {
             try {
-                var t = localStorage.getItem('nebula-theme') || 'dark';
+                var m = localStorage.getItem('nebula-theme-mode');
+                if (m !== 'light' && m !== 'dark' && m !== 'system') {
+                    m = localStorage.getItem('nebula-theme') === 'light' ? 'light' : 'dark';
+                }
+                var t = m === 'system'
+                    ? (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                    : m;
                 document.documentElement.setAttribute('data-theme', t);
             } catch (e) {
                 document.documentElement.setAttribute('data-theme', 'dark');
