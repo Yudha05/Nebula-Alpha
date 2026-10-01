@@ -1962,11 +1962,20 @@ html[data-theme="dark"] .modal-card,
 html[data-theme="dark"] .modal-box,
 html[data-theme="dark"] .modal-calendar-box,
 html[data-theme="dark"] .modal-profile-box,
+/* Modal khas halaman IoT Sensors — sebelumnya terlewat sehingga tetap putih
+   di mode gelap (mis. "Peringatan Jaringan"). */
+html[data-theme="dark"] .modal-warning-box,
+html[data-theme="dark"] .modal-grid-box,
 html[data-theme="dark"] .sensor-detail-popup {
     background: var(--bg-card) !important;
     color: var(--text-dark);
     border-color: var(--border-color);
 }
+html[data-theme="dark"] .modal-warning-box h3,
+html[data-theme="dark"] .modal-grid-box h3,
+html[data-theme="dark"] .modal-warning-box p,
+html[data-theme="dark"] .modal-grid-box p { color: var(--text-dark); }
+html[data-theme="dark"] .modal-warning-box p { color: var(--text-muted); }
 html[data-theme="dark"] .modal-card h3,
 html[data-theme="dark"] .modal-content h3,
 html[data-theme="dark"] .modal-box h3,
