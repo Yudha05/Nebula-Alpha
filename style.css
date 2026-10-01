@@ -1039,18 +1039,27 @@ body {
     height: 200px;
     padding-top: 20px;
     margin-top: 10px;
-    border-bottom: 1px solid var(--border-color);
+    /* Garis dasar (baseline) dihapus sesuai permintaan — grafik tampil polos
+       tanpa garis di bawah. `overflow: hidden` jadi pengaman: bar yang terlalu
+       tinggi dipotong di tepi kontainer, tidak menimpa label hari. */
+    overflow: hidden;
 }
 .chart-col {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 12%;
     height: 100%;
     justify-content: flex-end;
-    gap: 10px;
+    /* Ruang untuk label hari (diposisikan absolute di bawah bar) */
+    padding-bottom: 24px;
 }
 .chart-col .bar {
+    /* PENTING: `flex: 0 0 auto` supaya inline `height: xx%` dari HTML benar-benar
+       dipakai. Aturan `.bar { flex: 1 }` (dipakai chart baris di dashboard) bikin
+       flex-basis jadi 0 pada sumbu kolom, sehingga semua bar tingginya sama. */
+    flex: 0 0 auto;
     width: 100%;
     max-width: 40px;
     background: var(--primary-light, #e0e7ff);
@@ -1064,6 +1073,13 @@ body {
     background: var(--primary); /* Menggunakan warna primary ungu Anda */
 }
 .day-label {
+    /* Absolute di dasar kolom: tidak ikut dihitung flex, sehingga tinggi bar
+       tetap sesuai persentase datanya tanpa overflow. */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
     font-size: 12px;
     font-weight: 600;
     color: var(--text-muted);
