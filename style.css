@@ -184,6 +184,60 @@ body {
     margin-bottom: 40px;
 }
 
+/* .logo-img {
+    width: 60px !important;  
+    height: 60px !important;
+    object-fit: contain;     
+} */
+
+/* Memastikan teks sejajar secara vertikal dengan gambar */
+/* .logo h2 {
+    margin: 0;
+    line-height: 1;
+    font-size: 24px;
+} */
+
+/* Container Logo */
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 30px;
+}
+
+/* Gambar Logo */
+.logo-img {
+  height: 50px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Teks Logo */
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;/* Sesuaikan dengan tema Anda (misal #1e293b untuk tema terang) */
+  white-space: nowrap;      /* Mencegah teks terpotong ke bawah */
+}
+
+/* Responsif untuk Layar HP / Mobile */
+@media (max-width: 768px) {
+  .logo-box {
+    gap: 8px;
+    padding: 6px 8px;
+    margin-bottom: 40px;
+  }
+
+  .logo-img {
+    height: 50px;           /* Ukuran logo otomatis mengecil di HP */
+  }
+
+  .logo-text {
+    font-size: 24px;
+  }
+}
+
 .menu-section { margin-bottom: 30px; }
 .menu-title {
     font-size: 12px;
@@ -610,10 +664,11 @@ body {
     .sidebar.active {
         transform: translateX(0);
     }
-    .sidebar .logo {
+    .sidebar .logo-box {
         position: absolute;
-        top: 20px;
-        left: 20px;
+        top: 5px;
+        left: 5px;
+
         margin-bottom: 0;
     }
 
